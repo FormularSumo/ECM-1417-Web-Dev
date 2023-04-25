@@ -2,15 +2,18 @@
 <html>
   <head>
     <title>Pairs Minigame</title>
+    <link rel="stylesheet" href="style.css">
   </head>
-  <body>
 
-  <?php if(isset($_COOKIE["username"])) : ?>
-    <p>Welcome to Pairs</p>
-    <button onclick="window.location.href='pairs.php';">Click here to play</button>
-  <?php else : ?>
-    <p>You're not using a registered session? <a href="registration.php">Register</a> now</p>
-  <?php endif; ?>
+  <body>
+    <div id='main'>
+      <?php if(isset($_COOKIE["username"])) : ?>
+        <p>Welcome to Pairs</p>
+        <button onclick="window.location.href='pairs.php';">Click here to play</button>
+      <?php else : ?>
+        <p>You're not using a registered session? <a href="registration.php">Register</a> now</p>
+      <?php endif; ?>
+    </div>
 
   </body>
 </html>
