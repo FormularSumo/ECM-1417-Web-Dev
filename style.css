@@ -5,6 +5,7 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
+  color: white;
 }
 div#main {
   background-image: url('background.jpg');

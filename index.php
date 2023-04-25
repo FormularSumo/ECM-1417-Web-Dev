@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang-en>
   <head>
-    <title>Pairs Minigame</title>
+    <title>Home - Pairs Minigame</title>
     <link rel="stylesheet" href="style.css">
   </head>
 
@@ -14,6 +14,5 @@
         <p>You're not using a registered session? <a href="registration.php">Register</a> now</p>
       <?php endif; ?>
     </div>
-
   </body>
 </html>
