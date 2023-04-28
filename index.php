@@ -7,7 +7,7 @@
 
   <body>
     <div id='main'>
-      <?php if(isset($_COOKIE["username"])) : ?>
+      <?php if(isset($_COOKIE["Username"])) : ?>
         <p>Welcome to Pairs</p>
         <button onclick="window.location.href='pairs.php';">Click here to play</button>
       <?php else : ?>
