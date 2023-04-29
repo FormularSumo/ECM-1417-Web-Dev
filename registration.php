@@ -12,7 +12,7 @@
         <input type="text" id="Username" name="Username"><br>
         <?php
           if (isset($_COOKIE["login_failed"]) and $_COOKIE["login_failed"] == true) {
-            echo "Userame can't contain the following special characters: : ! @ # % ^ & * ( ) + = { } [ ] — ; : \" ' < > ? / \n";
+            echo "Userame can't contain the following special characters: : ! @ # % ^ & * ( ) + = { } [ ] — ; : \" ' < > ? /<br>";
             setcookie("login_failed",false);
           }
         ?>
