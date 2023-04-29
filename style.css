@@ -12,6 +12,17 @@ div#main {
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 100%;
+  padding: 10px;
+}
+
+form {
+  display: inline-block;
+  background-color: rgba(0,0,0,0.7);
+  border-radius: 15px;
+  width: auto;
   padding: 10px;
 }
