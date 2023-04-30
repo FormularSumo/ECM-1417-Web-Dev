@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang-en>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration - Pairs Minigame</title>
     <link rel="stylesheet" href="style.css">
 
@@ -16,7 +17,9 @@
     </script>
   </head>
 
-  <body>
+  <body style="font-size:0">
+    <?php include('navbar.php') ?>
+
     <div id='main'>
       <div id='content'>
         <form id='register' action="register.php" method="post">

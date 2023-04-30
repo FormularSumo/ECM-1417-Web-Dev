@@ -3,8 +3,7 @@
 }
 html, body {
   height: 100%;
-  margin: 0;
-  padding: 0;
+  margin: 0px;
   color: white;
 }
 div#main {
@@ -16,7 +15,7 @@ div#main {
   justify-content: center;
   align-items: center;
   height: 100%;
-  padding: 10px;
+  font-size: 16px;
 }
 
 div#content {
@@ -31,4 +30,31 @@ div#content {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   position: relative;
+}
+
+ul#navbar {
+  display: inline-block;
+  width:100%;
+  padding: 0;
+  list-style: none;
+  background-color: blue;
+}
+
+ul#navbar li {
+  float: left;
+  margin: 1.2%;
+  font-family:Verdana;
+  font-size:12px;
+}
+
+a {
+  font-weight: 700;
+  /* margin: 0 25px; */
+  color: #ffffff;
+  text-decoration: none;
+}
+
+a:hover {
+  padding-bottom: 5px;
+  box-shadow: inset 0 -2px 0 0 #fff;
 }
