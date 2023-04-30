@@ -19,9 +19,9 @@ div#main {
   padding: 10px;
 }
 
-form {
+div#content {
   display: inline-block;
-  background-color: rgba(0,0,0,0.7);
+  background-color: rgba(0,0,0,0.85);
   border-radius: 15px;
   width: auto;
   padding: 10px;

@@ -7,12 +7,14 @@
 
   <body>
     <div id='main'>
-      <?php if(isset($_COOKIE["Username"])) : ?>
-        <p>Welcome to Pairs</p>
-        <button onclick="window.location.href='pairs.php';">Click here to play</button>
-      <?php else : ?>
-        <p>You're not using a registered session? <a href="registration.php">Register</a> now</p>
-      <?php endif; ?>
+      <div id='content'>
+        <?php if(isset($_COOKIE["Username"])) : ?>
+          <p>Welcome to Pairs</p>
+          <button onclick="window.location.href='pairs.php';">Click here to play</button>
+        <?php else : ?>
+          <p>You're not using a registered session? <a href="registration.php">Register</a> now</p>
+        <?php endif; ?>
+      </div>
     </div>
   </body>
 </html>
