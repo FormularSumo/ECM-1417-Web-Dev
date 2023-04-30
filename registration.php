@@ -23,8 +23,8 @@
     <div id='main'>
       <div id='content'>
         <form id='register' action="register.php" method="post">
-          <label for="Username">Username:</label>
-          <input type="text" id="Username" name="Username">
+          <label for="username">username:</label>
+          <input type="text" id="username" name="username">
           <?php
             if (isset($_COOKIE["login_failed"]) and $_COOKIE["login_failed"] == true) {
               echo "<br>Userame can't contain the<br>following special characters:<br>: ! @ # % ^ & * ( ) + = { } [ ]<br>— ; : \" ' < > ? /<br>";

@@ -42,7 +42,7 @@ ul#navbar {
 
 ul#navbar li {
   float: left;
-  margin: 1.2%;
+  margin: 24px;
   font-family:Verdana;
   font-size:12px;
 }
