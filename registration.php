@@ -18,44 +18,48 @@
             }
           ?>
           <p>Create your avatar:</p>
-          <label>Eyes</label><br><br>
-          <img src="emoji assets/eyes/closed.png" height=36px style="filter: invert(1)">
-          <img src="emoji assets/eyes/laughing.png" height=36px style="filter: invert(1)">
-          <br>
-          <input type="radio" id="closed" name="eyes" value="Closed">
+
+          <div class=avatar>
+            <img id="skin" src="emoji assets/skin/green.png" height=50px style="grid-column: 2; grid-row: 1; z-index: 0;">
+            <img id="eyes" src="emoji assets/eyes/closed.png" height=50px style="grid-column: 2; grid-row: 1; z-index: 1;">
+            <img id="mouth" src="emoji assets/mouth/open.png" height=50px style="grid-column: 2; grid-row: 1; z-index: 1;">
+          </div>
+
+          <label>Skin</label><br>
+          <input type="radio" id="green" name="skin" value="Green" onclick='document.getElementById("skin").src = "emoji assets/skin/green.png"' checked>
+          <label for="green">Green</label><br>
+          <input type="radio" id="red" name="skin" value="Red" onclick='document.getElementById("skin").src = "emoji assets/skin/red.png"'>
+          <label for="red">Red</label><br>
+          <input type="radio" id="yellow" name="skin" value="Yellow" onclick='document.getElementById("skin").src = "emoji assets/skin/yellow.png"'>
+          <label for="yellow">Yellow</label><br><br>
+
+          <label>Eyes</label><br>
+          <input type="radio" id="closed" name="eyes" value="Closed" onclick='document.getElementById("eyes").src = "emoji assets/eyes/closed.png"' checked>
           <label for="closed">Closed</label><br>
-          <input type="radio" id="laughing" name="eyes" value="Laughing">
+          <input type="radio" id="laughing" name="eyes" value="Laughing" onclick='document.getElementById("eyes").src = "emoji assets/eyes/laughing.png"'>
           <label for="laughing">Laughing</label><br>
-          <input type="radio" id="long" name="eyes" value="Long">
+          <input type="radio" id="long" name="eyes" value="Long" onclick='document.getElementById("eyes").src = "emoji assets/eyes/long.png"'>
           <label for="long">Long</label><br>
-          <input type="radio" id="normal" name="eyes" value="Normal">
+          <input type="radio" id="normal" name="eyes" value="Normal" onclick='document.getElementById("eyes").src = "emoji assets/eyes/normal.png"'>
           <label for="normal">Normal</label><br>
-          <input type="radio" id="rolling" name="eyes" value="Rolling">
+          <input type="radio" id="rolling" name="eyes" value="Rolling" onclick='document.getElementById("eyes").src = "emoji assets/eyes/rolling.png"'>
           <label for="rolling">Rolling</label><br>
-          <input type="radio" id="winking" name="eyes" value="Winking">
+          <input type="radio" id="winking" name="eyes" value="Winking" onclick='document.getElementById("eyes").src = "emoji assets/eyes/winking.png"'>
           <label for="winking">Winking</label><br><br>
 
           <label>Mouth</label><br>
-          <input type="radio" id="open" name="eyes" value="Open">
+          <input type="radio" id="open" name="mouth" value="Open" onclick='document.getElementById("mouth").src = "emoji assets/mouth/open.png"' checked>
           <label for="open">Open</label><br>
-          <input type="radio" id="sad" name="eyes" value="Sad">
+          <input type="radio" id="sad" name="mouth" value="Sad" onclick='document.getElementById("mouth").src = "emoji assets/mouth/sad.png"'>
           <label for="sad">Sad</label><br>
-          <input type="radio" id="smiling" name="eyes" value="Smiling">
+          <input type="radio" id="smiling" name="mouth" value="Smiling" onclick='document.getElementById("mouth").src = "emoji assets/mouth/smiling.png"'>
           <label for="smiling">Smiling</label><br>
-          <input type="radio" id="straight" name="eyes" value="Straight">
+          <input type="radio" id="straight" name="mouth" value="Straight" onclick='document.getElementById("mouth").src = "emoji assets/mouth/straight.png"'>
           <label for="straight">Straight</label><br>
-          <input type="radio" id="surprise" name="eyes" value="Surprise">
+          <input type="radio" id="surprise" name="mouth" value="Surprise" onclick='document.getElementById("mouth").src = "emoji assets/mouth/surprise.png"'>
           <label for="surprise">Surprise</label><br>
-          <input type="radio" id="teeth" name="eyes" value="Teeth">
+          <input type="radio" id="teeth" name="mouth" value="Teeth" onclick='document.getElementById("mouth").src = "emoji assets/mouth/teeth.png"'>
           <label for="teeth">Teeth</label><br><br>
-
-          <label>Skin</label><br>
-          <input type="radio" id="green" name="eyes" value="Green">
-          <label for="green">Green</label><br>
-          <input type="radio" id="red" name="eyes" value="Red">
-          <label for="red">Red</label><br>
-          <input type="radio" id="yellow" name="eyes" value="Yellow">
-          <label for="yellow">Yellow</label><br><br>
 
           <input type="submit" value="Register">     
         </form>

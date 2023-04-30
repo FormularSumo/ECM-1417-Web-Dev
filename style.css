@@ -26,3 +26,9 @@ div#content {
   width: auto;
   padding: 10px;
 }
+
+.avatar {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  position: relative;
+}
