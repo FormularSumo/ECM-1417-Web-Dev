@@ -29,7 +29,7 @@
 
         if (previousTimeStamp !== timestamp) {
           current_points = current_points - (timestamp-previous_timestamp) * 0.0002 * (current_points/1000)**2.5;
-          document.getElementById("point counter").innerHTML = "Points:" + Math.round(current_points);
+          document.getElementById("point counter").innerHTML = "Points: " + Math.round(current_points);
         }
 
         if (elapsed < 15000) {
@@ -58,7 +58,7 @@
     <div id='main'>
       <div id='content' style="background-color:grey; box-shadow:0px 0px 5px 5px #515151;">
         <div id='pairs' style="display:none; width=80%;">
-          <p id='point counter'>Points = 1000</p>
+          <p id='point counter'>Points: 1000</p>
           <div class='grid' style='grid-template-columns: repeat(3, 1fr)'>
             <div class='card' style='grid-column: 1; grid-row: 1;'>
               <img src="emoji assets/skin/green.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 0;">
