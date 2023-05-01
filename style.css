@@ -45,6 +45,10 @@ div#content {
   box-shadow: 0px 0px 15px 3px #3f3e3e;
 }
 
+.card > img {
+  opacity: 0;
+}
+
 .grid {
   display: grid;
   grid-template-rows: repeat(2, 1fr);

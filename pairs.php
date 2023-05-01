@@ -17,6 +17,9 @@
         total_points=0;
         game_active=true;
         window.requestAnimationFrame(update);
+        for (const child of document.getElementById('level 1').children) {
+          child.addEventListener("click",() => clicked(child));
+        }
       }
 
       function update(timestamp) {
@@ -32,19 +35,31 @@
           document.getElementById("point counter").innerHTML = "Points: " + Math.round(current_points);
         }
 
-        if (elapsed < 15000) {
-          previous_TimeStamp = timestamp;
-          if (game_active==true) {
-            window.requestAnimationFrame(update);
-          }
+        previous_TimeStamp = timestamp;
+        if (game_active==true) {
+          window.requestAnimationFrame(update);
         }
       }
 
       function clicked(card) {
         if (card_flipped == false) {
-          card_flipped = card
+          card_flipped = card;
+          for (const child of card_flipped.children) {
+            child.style.opacity=1;
+          }
         } else {
-          game_active = false
+          for (const child of card.children) {
+            child.style.opacity=1;
+          }
+          if (card_flipped != card && card.children[0].src === card_flipped.children[0].src && card.children[1].src === card_flipped.children[1].src && card.children[2].src === card_flipped.children[2].src) {
+            game_active = false;
+          } else {
+            const card_to_be_cleared = card;
+            setTimeout(function() {for (const child of card_to_be_cleared.children) {child.style.opacity=0;}}, 400)
+            const card_to_be_cleared2 = card_flipped;
+            setTimeout(function() {for (const child of card_to_be_cleared2.children) {child.style.opacity=0;}}, 400)
+          }
+          card_flipped = false;
         }
       }
     </script>
@@ -59,9 +74,9 @@
       <div id='content' style="background-color:grey; box-shadow:0px 0px 5px 5px #515151;">
         <div id='pairs' style="display:none; width=80%;">
           <p id='point counter'>Points: 1000</p>
-          <div class='grid' style='grid-template-columns: repeat(3, 1fr)'>
+          <div id='level 1' class='grid' style='grid-template-columns: repeat(3, 1fr)'>
             <div class='card' style='grid-column: 1; grid-row: 1;'>
-              <img src="emoji assets/skin/green.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 0;">
+              <img src="emoji assets/skin/yellow.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 0;">
               <img src="emoji assets/eyes/closed.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 1;">
               <img src="emoji assets/mouth/open.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 2;">
             </div>
