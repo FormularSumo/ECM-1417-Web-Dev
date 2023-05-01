@@ -1,7 +1,7 @@
 <ul id='navbar' style="font-size:0px">
   <li name="home"><a href="index.php">Home</a></li>
   <li name="memory" style="float:right"><a href="pairs.php">Play Pairs</a></li>
-  <?php if(isset($_COOKIE["username"])) : ?>
+  <?php if(isset($_COOKIE["username"]) and substr("$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]",-16) != "registration.php") : ?>
     <li name="leaderboard" style="float:right"><a href="leaderboard.php">Leaderboard</a></li>
     <li name="avatar">
       <div class=avatar style="margin:-18px">
@@ -15,7 +15,7 @@
   <?php endif; ?>
 </ul>
 
-<?php if(isset($_COOKIE["username"])) : ?>
+<?php if(isset($_COOKIE["username"]) and substr("$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]",-16) != "registration.php") : ?>
   <script>
     function getCookie(cname) {
       let name = cname + "=";

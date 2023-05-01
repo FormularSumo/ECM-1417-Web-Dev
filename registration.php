@@ -23,7 +23,7 @@
     <div id='main'>
       <div id='content'>
         <form id='register' action="register.php" method="post">
-          <label for="username">username:</label>
+          <label for="username">Username:</label>
           <input type="text" id="username" name="username">
           <?php
             if (isset($_COOKIE["login_failed"]) and $_COOKIE["login_failed"] == true) {
