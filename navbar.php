@@ -15,28 +15,30 @@
   <?php endif; ?>
 </ul>
 
-<script>
-  function getCookie(cname) {
-    let name = cname + "=";
-    let decodedCookie = decodeURIComponent(document.cookie);
-    let ca = decodedCookie.split(';');
-    for(let i = 0; i <ca.length; i++) {
-      let c = ca[i];
-      while (c.charAt(0) == ' ') {
-        c = c.substring(1);
+<?php if(isset($_COOKIE["username"])) : ?>
+  <script>
+    function getCookie(cname) {
+      let name = cname + "=";
+      let decodedCookie = decodeURIComponent(document.cookie);
+      let ca = decodedCookie.split(';');
+      for(let i = 0; i <ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
       }
-      if (c.indexOf(name) == 0) {
-        return c.substring(name.length, c.length);
-      }
+      return "";
     }
-    return "";
-  }
-  window.onload = function() {
-    document.getElementById("skin").src = 'emoji assets/skin/' + getCookie("skin") + '.png';
-    document.getElementById("eyes").src = 'emoji assets/eyes/' + getCookie("eyes") + '.png';
-    document.getElementById("mouth").src = 'emoji assets/mouth/' + getCookie("mouth") + '.png';
-    document.getElementById("skin").style.opacity = 1;
-    document.getElementById("eyes").style.opacity = 1;
-    document.getElementById("mouth").style.opacity = 1;
-  };
-</script>
+    window.onload = function() {
+      document.getElementById("skin").src = 'emoji assets/skin/' + getCookie("skin") + '.png';
+      document.getElementById("eyes").src = 'emoji assets/eyes/' + getCookie("eyes") + '.png';
+      document.getElementById("mouth").src = 'emoji assets/mouth/' + getCookie("mouth") + '.png';
+      document.getElementById("skin").style.opacity = 1;
+      document.getElementById("eyes").style.opacity = 1;
+      document.getElementById("mouth").style.opacity = 1;
+    };
+  </script>
+<?php endif; ?>
