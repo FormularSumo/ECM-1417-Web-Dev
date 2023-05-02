@@ -11,6 +11,7 @@
       let start, previousTimeStamp;
       let card_flipped = false;
       let current_point;
+      let pairs_left;
 
       function begin() {
         document.getElementById("start_button").style.display="none";
@@ -24,6 +25,7 @@
             child2.draggable=false;
           }
         }
+        pairs_left = 3;
       }
 
       function update(timestamp) {
@@ -62,12 +64,15 @@
             card.timer.clear();
           } else if (card_flipped != card) {
             if (card_flipped != card && card.children[0].src === card_flipped.children[0].src && card.children[1].src === card_flipped.children[1].src && card.children[2].src === card_flipped.children[2].src) {
-              game_active = false;
               for (const child of card_flipped.children) {
                 child.style.opacity=1;
               }
               for (const child of card.children) {
                 child.style.opacity=1;
+              }
+              pairs_left = pairs_left - 1;
+              if (pairs_left === 0) {
+                game_active = false;
               }
             } else {
               const card_to_be_cleared = card; //Consts are used so that card_flipped can be cleared and this function can be run again
@@ -108,7 +113,7 @@
           <p id='point counter'>Points: 1000</p>
           <div id='level 1' class='grid' style='grid-template-columns: repeat(3, 1fr)'>
             <div class='card' style='grid-column: 1; grid-row: 1;'>
-              <img src="emoji assets/skin/yellow.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 0;" draggable="false">
+              <img src="emoji assets/skin/green.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 0;" draggable="false">
               <img src="emoji assets/eyes/closed.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 1;" draggable="false">
               <img src="emoji assets/mouth/open.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 2;" draggable="false">
             </div>
@@ -128,7 +133,7 @@
               <img src="emoji assets/mouth/open.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 2;">
             </div>
             <div class='card' style='grid-column: 2; grid-row: 2;'>
-              <img src="emoji assets/skin/green.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 0;">
+              <img src="emoji assets/skin/red.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 0;">
               <img src="emoji assets/eyes/closed.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 1;">
               <img src="emoji assets/mouth/open.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 2;">
             </div>
