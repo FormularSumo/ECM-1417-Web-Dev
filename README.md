@@ -16,3 +16,8 @@ register.php:
 
 pairs.php
   Start button that disppears when pressed to reveal game
+  Points go down over time - proportionally slower as the round goes on. Selecting a wrong pair also reduces points, by 5%
+  Clicking on a card reveals the emoji at 80% opacity, the card then can't be flipped back over until a different card is chosen
+  The emoji on the 2nd card is also revealed. If the cards match, the emojis show at 100% opacity, if not they hide again after 400 ms
+  Clicking on a card that's scedulded to be flipped back over cancels that flip and keeps the card flipped up until it next needs to be flipped back over (eg click on a couple of incorrect cards then very quickly click on one of those cards again before it flips back over)
+  Emojis can't be dragged to prevent a user creating a ghost copy of an emoji following their mouse, which defeats the point of the game (memory!)
