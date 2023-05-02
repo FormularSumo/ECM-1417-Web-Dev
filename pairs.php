@@ -45,14 +45,14 @@
         if (card_flipped == false) {
           card_flipped = card;
           for (const child of card_flipped.children) {
-            child.style.opacity=1;
+            child.style.opacity=0.8;
           }
           if (card_flipped.timer) {
             card_flipped.timer.clear();
           }
         } else {
           for (const child of card.children) {
-            child.style.opacity=1;
+            child.style.opacity=0.8;
           }
           if (card.timer) {
             card.timer.clear();
@@ -61,6 +61,12 @@
             for (const child of card_flipped.children) {child.style.opacity=0;} //If same card is clicked again to cancel, flip instantly as player has already seen it
           } else if (card_flipped != card && card.children[0].src === card_flipped.children[0].src && card.children[1].src === card_flipped.children[1].src && card.children[2].src === card_flipped.children[2].src) {
             game_active = false;
+            for (const child of card_flipped.children) {
+              child.style.opacity=1;
+            }
+            for (const child of card.children) {
+              child.style.opacity=1;
+            }
           } else {
             const card_to_be_cleared = card; //Consts are used so that card_flipped can be cleared and this function can be run again
             card.timer = createTimeout(function() {card_to_be_cleared.timer = null; for (const child of card_to_be_cleared.children) {child.style.opacity=0;}}, 400) //400ms delay so that user can see the card they've just flipped
