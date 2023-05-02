@@ -10,6 +10,7 @@
       let game_active;
       let start, previousTimeStamp;
       let card_flipped = false;
+      let current_point;
 
       function begin() {
         document.getElementById("start_button").style.display="none";
@@ -69,9 +70,10 @@
             }
           } else {
             const card_to_be_cleared = card; //Consts are used so that card_flipped can be cleared and this function can be run again
-            card.timer = createTimeout(function() {card_to_be_cleared.timer = null; for (const child of card_to_be_cleared.children) {child.style.opacity=0;}}, 400) //400ms delay so that user can see the card they've just flipped
+            card.timer = createTimeout(function() {card_to_be_cleared.timer = null; for (const child of card_to_be_cleared.children) {child.style.opacity=0;}}, 400); //400ms delay so that user can see the card they've just flipped
             const card_to_be_cleared2 = card_flipped;
-            card_flipped.timer = createTimeout(function() {card_to_be_cleared2.timer = null;for (const child of card_to_be_cleared2.children) {child.style.opacity=0;}}, 400)
+            card_flipped.timer = createTimeout(function() {card_to_be_cleared2.timer = null;for (const child of card_to_be_cleared2.children) {child.style.opacity=0;}}, 400);
+            current_points = current_points * 0.95;
           }
           card_flipped = false;
         }
