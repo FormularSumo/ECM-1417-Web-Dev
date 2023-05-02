@@ -43,10 +43,13 @@ div#content {
   justify-content: center;
   align-items: center;
   box-shadow: 0px 0px 15px 3px #3f3e3e;
+  user-select: none;
 }
 
 .card > img {
   opacity: 0;
+  user-select: none;
+  -webkit-user-select: none; /*Bizarre that Safari doesn't support the non-prefixed user-select*/
 }
 
 .grid {
