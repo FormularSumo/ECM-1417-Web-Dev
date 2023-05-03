@@ -21,3 +21,6 @@ pairs.php
   The emoji on the 2nd card is also revealed. If the cards match, the emojis show at 100% opacity, if not they hide again after 400 ms
   Clicking on a card that's scedulded to be flipped back over cancels that flip and keeps the card flipped up until it next needs to be flipped back over (eg click on a couple of incorrect cards then very quickly click on one of those cards again before it flips back over)
   Emojis can't be dragged to prevent a user creating a ghost copy of an emoji following their mouse, which defeats the point of the game (memory!)
+
+  Card images are randomly generated and ordered, such that there's always 2 (or very rarely, 4, 6 etc) of each card
+  Once all pairs have been matched, round ends and round points pauses
