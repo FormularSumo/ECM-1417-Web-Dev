@@ -10,12 +10,23 @@
       let game_active;
       let start, previousTimeStamp;
       let card_flipped = false;
-      let current_point;
+      let current_points = 0;
       let pairs_left;
       let pairs;
+      let current_level = 1;
 
       function getRandomInteger(min, max) {
         return Math.floor(Math.random() * (max - min + 1) ) + min;
+      }
+
+      function createTimeout(timeoutHandler, delay) {
+        var timeoutId;
+        timeoutId = setTimeout(timeoutHandler, delay);
+        return {
+          clear: function() {
+            clearTimeout(timeoutId);
+          },
+        };
       }
 
       function cloneArray(array, cloneAmount){
@@ -77,6 +88,11 @@
         return array2;
       }
 
+      function updatePoints() {
+        total_points = total_points + current_points;
+        document.getElementById("total point counter").innerHTML = "Total points: " + Math.round(total_points);
+      }
+
       function createLevel(pairSize,rows,columns) {
         pairs = [];
         pairs_left = (rows*columns) / pairSize;
@@ -90,7 +106,9 @@
 
         level = document.getElementById("level");
 
-        delete level.children;
+        while (level.firstChild) {
+          level.firstChild.remove()
+        }
 
         level.style.gridTemplateRows = "repeat(rows, 1fr)";
         level.style.gridTemplateColumns = "repeat(columns, 1fr)";
@@ -107,16 +125,30 @@
             cards++;
           }
         }
-      }
 
-      function level1() {
-        document.getElementById("start_button").style.display="none";
-        document.getElementById("pairs").style.display="block";
-        total_points=0;
+        updatePoints();
+        current_points = 1000;
         game_active=true;
         window.requestAnimationFrame(update);
+      }
 
-        createLevel(2,2,3);
+      function playLevel(level) {
+        if (level === 1) {
+          document.getElementById("start_button").style.display="none";
+          document.getElementById("pairs").style.display="block";
+          total_points=0;
+          createLevel(2,2,3);
+        } else if (level === 2) {
+          createLevel(2,3,4);
+        } else if (level === 3) {
+          createLevel(2,4,5);
+        } else {
+          updatePoints();
+          while (document.getElementById("level").firstChild) {
+            document.getElementById("level").firstChild.remove()
+          }
+          document.getElementById("round point counter").remove();
+        }
       }
 
       function clicked(card) {
@@ -145,13 +177,15 @@
               pairs_left = pairs_left - 1;
               if (pairs_left === 0) {
                 game_active = false;
+                current_level++;
+                setTimeout(function () {playLevel(current_level)},2000);
               }
             } else {
               const card_to_be_cleared = card; //Consts are used so that card_flipped can be cleared and this function can be run again
               card.timer = createTimeout(function() {card_to_be_cleared.timer = null; for (const child of card_to_be_cleared.children) {child.style.opacity=0;}}, 400); //400ms delay so that user can see the card they've just flipped
               const card_to_be_cleared2 = card_flipped;
               card_flipped.timer = createTimeout(function() {card_to_be_cleared2.timer = null;for (const child of card_to_be_cleared2.children) {child.style.opacity=0;}}, 400);
-              current_points = current_points * 0.95;
+              current_points = current_points * (1-0.05/current_level**3);
             }
             card_flipped = false;
           }
@@ -161,13 +195,12 @@
       function update(timestamp) {
         if (start === undefined) {
           start = timestamp;
-          current_points = 1000;
           previous_timestamp=timestamp
         }
         const elapsed = timestamp - start;
 
         if (previousTimeStamp !== timestamp) {
-          current_points = current_points - (timestamp-previous_timestamp) * 0.0002 * (current_points/1000)**2.5;
+          current_points = current_points - (timestamp-previous_timestamp) * 0.0002 * (current_points/1000)**2.5 / current_level**3;
           document.getElementById("round point counter").innerHTML = "Points this round: " + Math.round(current_points);
         }
 
@@ -176,20 +209,6 @@
           window.requestAnimationFrame(update);
         }
       }
-
-    function createTimeout(timeoutHandler, delay) {
-      var timeoutId;
-      timeoutId = setTimeout(timeoutHandler, delay);
-      return {
-        clear: function() {
-          clearTimeout(timeoutId);
-        },
-        trigger: function() {
-          clearTimeout(timeoutId);
-          return timeoutHandler();
-        }
-      };
-    }
     </script>
   </head>
 
@@ -201,12 +220,12 @@
     <div id='main'>
       <div id='content' style="background-color:grey; box-shadow:0px 0px 5px 5px #515151;">
         <div id='pairs' style="display:none; width=80%;">
-          <p id='point counter'>Total points: 0</p>
+          <p id='total point counter'>Total points: 0</p>
           <p id='round point counter'>Points this round: 1000</p>
 
           <div id='level' class='grid'></div>
         </div>
-        <button id='start_button' onclick="level1()">Click here to play</button>
+        <button id='start_button' onclick="playLevel(1)">Click here to play</button>
       </div>
     </div>
   </body>
