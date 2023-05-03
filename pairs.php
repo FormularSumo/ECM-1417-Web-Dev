@@ -12,6 +12,7 @@
       let card_flipped = false;
       let current_point;
       let pairs_left;
+      let pairs = [];
 
       function begin() {
         document.getElementById("start_button").style.display="none";
@@ -19,13 +20,90 @@
         total_points=0;
         game_active=true;
         window.requestAnimationFrame(update);
-        for (const child of document.getElementById('level 1').children) {
-          child.addEventListener("click",() => clicked(child));
-          for (const child2 of child.children) { //prevent user from dragging picture as they could then see card for longer
-            child2.draggable=false;
-          }
-        }
         pairs_left = 3;
+
+        for (let i=0; i < pairs_left; i++) {
+          pairs.push(arrayToEmoji([getRandomInteger(0,2),getRandomInteger(0,5),getRandomInteger(0,5)]));
+        }
+
+        pairs = duplicateArray(pairs);
+        shuffleArray(pairs);
+
+        let i = 0;
+        for (const child of document.getElementById('level 1').children) {
+          let k = 0;
+          child.addEventListener("click",() => clicked(child));
+          for (const child2 of child.children) {
+            child2.draggable=false; //prevent user from dragging picture as they could then see card for longer
+            child2.src=pairs[i][k] //override card img src with randomly generated one
+            k++;
+          }
+          i++;
+        }
+
+        
+      }
+
+      function duplicateArray(array) {
+        temporary_array = []
+        for(let i = 0; i< array.length;++i){
+          temporary_array.push(array[i]);
+          temporary_array.push(array[i]);
+        }
+        return temporary_array;
+      }
+
+      function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+      }
+
+      function getRandomInteger(min, max) {
+        return Math.floor(Math.random() * (max - min + 1) ) + min;
+      }
+
+      function arrayToEmoji(array) {
+        array2=[]
+
+        if (array[0] === 0) {
+          array2.push('emoji assets/skin/green.png')
+        } else if (array[0] === 1) {
+          array2.push('emoji assets/skin/red.png')
+        } else if (array[0] === 2) {
+          array2.push('emoji assets/skin/yellow.png')
+        }
+
+        if (array[1] === 0) {
+          array2.push('emoji assets/eyes/closed.png')
+        } else if (array[1] === 1) {
+          array2.push('emoji assets/eyes/laughing.png')
+        } else if (array[1] === 2) {
+          array2.push('emoji assets/eyes/long.png')
+        } else if (array[1] === 3) {
+          array2.push('emoji assets/eyes/normal.png')
+        } else if (array[1] === 4) {
+          array2.push('emoji assets/eyes/rolling.png')
+        } else if (array[1] === 5) {
+          array2.push('emoji assets/eyes/winking.png')
+        }
+
+        if (array[2] === 0) {
+          array2.push('emoji assets/mouth/open.png')
+        } else if (array[2] === 1) {
+          array2.push('emoji assets/mouth/sad.png')
+        } else if (array[2] === 2) {
+          array2.push('emoji assets/mouth/smiling.png')
+        } else if (array[2] === 3) {
+          array2.push('emoji assets/mouth/straight.png')
+        } else if (array[2] === 4) {
+          array2.push('emoji assets/mouth/surprise.png')
+        } else if (array[2] === 5) {
+          array2.push('emoji assets/mouth/teeth.png')
+        }
+
+        return array2;
       }
 
       function update(timestamp) {
