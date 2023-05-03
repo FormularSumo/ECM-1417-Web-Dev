@@ -113,9 +113,9 @@
           <p id='point counter'>Points: 1000</p>
           <div id='level 1' class='grid' style='grid-template-columns: repeat(3, 1fr)'>
             <div class='card' style='grid-column: 1; grid-row: 1;'>
-              <img src="emoji assets/skin/green.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 0;" draggable="false">
-              <img src="emoji assets/eyes/closed.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 1;" draggable="false">
-              <img src="emoji assets/mouth/open.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 2;" draggable="false">
+              <img src="emoji assets/skin/green.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 0;">
+              <img src="emoji assets/eyes/closed.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 1;">
+              <img src="emoji assets/mouth/open.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 2;">
             </div>
             <div class='card' style='grid-column: 2; grid-row: 1;'>
               <img src="emoji assets/skin/green.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 0;">
