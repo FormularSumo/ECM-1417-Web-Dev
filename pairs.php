@@ -12,44 +12,18 @@
       let card_flipped = false;
       let current_point;
       let pairs_left;
-      let pairs = [];
+      let pairs;
 
-      function begin() {
-        document.getElementById("start_button").style.display="none";
-        document.getElementById("pairs").style.display="block";
-        total_points=0;
-        game_active=true;
-        window.requestAnimationFrame(update);
-        pairs_left = 3;
-
-        for (let i=0; i < pairs_left; i++) {
-          pairs.push(arrayToEmoji([getRandomInteger(0,2),getRandomInteger(0,5),getRandomInteger(0,5)]));
-        }
-
-        pairs = cloneArray(pairs,2);
-        shuffleArray(pairs);
-
-        let i = 0;
-        for (const child of document.getElementById('level 1').children) {
-          let k = 0;
-          child.addEventListener("click",() => clicked(child));
-          for (const child2 of child.children) {
-            child2.draggable=false; //prevent user from dragging picture as they could then see card for longer
-            child2.src=pairs[i][k] //override card img src with randomly generated one
-            k++;
-          }
-          i++;
-        }
-
-        
+      function getRandomInteger(min, max) {
+        return Math.floor(Math.random() * (max - min + 1) ) + min;
       }
 
       function cloneArray(array, cloneAmount){
         var temporary_array = [];
         for(i=0; i<array.length; i++){
-                for(j=0; j<cloneAmount; j++){
-                  temporary_array.push(array[i]);
-                }
+          for(j=0; j<cloneAmount; j++){
+            temporary_array.push(array[i]);
+          }
         }
         return temporary_array;
       }
@@ -59,10 +33,6 @@
           const j = Math.floor(Math.random() * (i + 1));
             [array[i], array[j]] = [array[j], array[i]];
         }
-      }
-
-      function getRandomInteger(min, max) {
-        return Math.floor(Math.random() * (max - min + 1) ) + min;
       }
 
       function arrayToEmoji(array) {
@@ -107,23 +77,46 @@
         return array2;
       }
 
-      function update(timestamp) {
-        if (start === undefined) {
-          start = timestamp;
-          current_points = 1000;
-          previous_timestamp=timestamp
-        }
-        const elapsed = timestamp - start;
+      function createLevel(pairSize,rows,columns) {
+        pairs = [];
+        pairs_left = (rows*columns) / pairSize;
 
-        if (previousTimeStamp !== timestamp) {
-          current_points = current_points - (timestamp-previous_timestamp) * 0.0002 * (current_points/1000)**2.5;
-          document.getElementById("round point counter").innerHTML = "Points this round: " + Math.round(current_points);
+        for (let i=0; i < pairs_left; i++) {
+          pairs.push(arrayToEmoji([getRandomInteger(0,2),getRandomInteger(0,5),getRandomInteger(0,5)]));
         }
 
-        previous_TimeStamp = timestamp;
-        if (game_active==true) {
-          window.requestAnimationFrame(update);
+        pairs = cloneArray(pairs,pairSize);
+        shuffleArray(pairs);
+
+        level = document.getElementById("level");
+
+        delete level.children;
+
+        level.style.gridTemplateRows = "repeat(rows, 1fr)";
+        level.style.gridTemplateColumns = "repeat(columns, 1fr)";
+
+        let cards = 0;
+        for (let row=1;row<=rows;row++) {
+          for (let column=1;column<=columns;column++) {
+            level.insertAdjacentHTML("beforeend","<div class='card' style='grid-column: " + column + "1; grid-row: " + row + "1;'>");
+            const card = level.lastChild;
+            card.addEventListener("click",() => clicked(card));
+            for (let img=0;img<3;img++) {
+              card.insertAdjacentHTML("beforeend","<img src=\"" + pairs[cards][img] + "\" height=80px draggable=false style=\"grid-column: 1; grid-row: 1; z-index: 0;\">");
+            }
+            cards++;
+          }
         }
+      }
+
+      function level1() {
+        document.getElementById("start_button").style.display="none";
+        document.getElementById("pairs").style.display="block";
+        total_points=0;
+        game_active=true;
+        window.requestAnimationFrame(update);
+
+        createLevel(2,2,3);
       }
 
       function clicked(card) {
@@ -165,6 +158,25 @@
         }
       }
 
+      function update(timestamp) {
+        if (start === undefined) {
+          start = timestamp;
+          current_points = 1000;
+          previous_timestamp=timestamp
+        }
+        const elapsed = timestamp - start;
+
+        if (previousTimeStamp !== timestamp) {
+          current_points = current_points - (timestamp-previous_timestamp) * 0.0002 * (current_points/1000)**2.5;
+          document.getElementById("round point counter").innerHTML = "Points this round: " + Math.round(current_points);
+        }
+
+        previous_TimeStamp = timestamp;
+        if (game_active==true) {
+          window.requestAnimationFrame(update);
+        }
+      }
+
     function createTimeout(timeoutHandler, delay) {
       var timeoutId;
       timeoutId = setTimeout(timeoutHandler, delay);
@@ -191,40 +203,10 @@
         <div id='pairs' style="display:none; width=80%;">
           <p id='point counter'>Total points: 0</p>
           <p id='round point counter'>Points this round: 1000</p>
-          <div id='level 1' class='grid' style='grid-template-columns: repeat(3, 1fr)'>
-            <div class='card' style='grid-column: 1; grid-row: 1;'>
-              <img src="emoji assets/skin/green.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 0;">
-              <img src="emoji assets/eyes/closed.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 1;">
-              <img src="emoji assets/mouth/open.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 2;">
-            </div>
-            <div class='card' style='grid-column: 2; grid-row: 1;'>
-              <img src="emoji assets/skin/green.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 0;">
-              <img src="emoji assets/eyes/closed.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 1;">
-              <img src="emoji assets/mouth/open.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 2;">
-            </div>
-            <div class='card' style='grid-column: 3; grid-row: 1;'>
-              <img src="emoji assets/skin/red.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 0;">
-              <img src="emoji assets/eyes/closed.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 1;">
-              <img src="emoji assets/mouth/open.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 2;">
-            </div>
-            <div class='card' style='grid-column: 1; grid-row: 2;'>
-              <img src="emoji assets/skin/green.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 0;">
-              <img src="emoji assets/eyes/closed.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 1;">
-              <img src="emoji assets/mouth/open.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 2;">
-            </div>
-            <div class='card' style='grid-column: 2; grid-row: 2;'>
-              <img src="emoji assets/skin/red.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 0;">
-              <img src="emoji assets/eyes/closed.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 1;">
-              <img src="emoji assets/mouth/open.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 2;">
-            </div>
-            <div class='card' style='grid-column: 3; grid-row: 2;'>
-              <img src="emoji assets/skin/green.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 0;">
-              <img src="emoji assets/eyes/closed.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 1;">
-              <img src="emoji assets/mouth/open.png" height=80px style="grid-column: 1; grid-row: 1; z-index: 2;">
-            </div>
-          </div>
+
+          <div id='level' class='grid'></div>
         </div>
-        <button id='start_button' onclick="begin()">Click here to play</button>
+        <button id='start_button' onclick="level1()">Click here to play</button>
       </div>
     </div>
   </body>
