@@ -26,7 +26,7 @@
           pairs.push(arrayToEmoji([getRandomInteger(0,2),getRandomInteger(0,5),getRandomInteger(0,5)]));
         }
 
-        pairs = duplicateArray(pairs);
+        pairs = cloneArray(pairs,2);
         shuffleArray(pairs);
 
         let i = 0;
@@ -44,11 +44,12 @@
         
       }
 
-      function duplicateArray(array) {
-        temporary_array = []
-        for(let i = 0; i< array.length;++i){
-          temporary_array.push(array[i]);
-          temporary_array.push(array[i]);
+      function cloneArray(array, cloneAmount){
+        var temporary_array = [];
+        for(i=0; i<array.length; i++){
+                for(j=0; j<cloneAmount; j++){
+                  temporary_array.push(array[i]);
+                }
         }
         return temporary_array;
       }
