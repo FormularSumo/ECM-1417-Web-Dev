@@ -140,6 +140,7 @@
           total_points=0;
           current_points=0;
           current_level=1;
+          start=undefined;
           createLevel(2,2,1);
         } else if (level === 2) {
           createLevel(2,2,1);
@@ -158,42 +159,44 @@
       }
 
       function clicked(card) {
-        if (card_flipped == false) {
-          card_flipped = card;
-          for (const child of card_flipped.children) {
-            child.style.opacity=0.8;
-          }
-          if (card_flipped.timer) {
-            card_flipped.timer.clear();
-          }
-        } else {
-          for (const child of card.children) {
-            child.style.opacity=0.8;
-          }
-          if (card.timer) {
-            card.timer.clear();
-          } else if (card_flipped != card) {
-            if (card_flipped != card && card.children[0].src === card_flipped.children[0].src && card.children[1].src === card_flipped.children[1].src && card.children[2].src === card_flipped.children[2].src) {
-              for (const child of card_flipped.children) {
-                child.style.opacity=1;
-              }
-              for (const child of card.children) {
-                child.style.opacity=1;
-              }
-              pairs_left = pairs_left - 1;
-              if (pairs_left === 0) {
-                game_active = false;
-                current_level++;
-                setTimeout(function () {playLevel(current_level)},2000);
-              }
-            } else {
-              const card_to_be_cleared = card; //Consts are used so that card_flipped can be cleared and this function can be run again
-              card.timer = createTimeout(function() {card_to_be_cleared.timer = null; for (const child of card_to_be_cleared.children) {child.style.opacity=0;}}, 400); //400ms delay so that user can see the card they've just flipped
-              const card_to_be_cleared2 = card_flipped;
-              card_flipped.timer = createTimeout(function() {card_to_be_cleared2.timer = null;for (const child of card_to_be_cleared2.children) {child.style.opacity=0;}}, 400);
-              current_points = current_points * (1-0.05/current_level**3);
+        if (game_active) {
+          if (card_flipped == false) {
+            card_flipped = card;
+            for (const child of card_flipped.children) {
+              child.style.opacity=0.8;
             }
-            card_flipped = false;
+            if (card_flipped.timer) {
+              card_flipped.timer.clear();
+            }
+          } else {
+            for (const child of card.children) {
+              child.style.opacity=0.8;
+            }
+            if (card.timer) {
+              card.timer.clear();
+            } else if (card_flipped != card) {
+              if (card_flipped != card && card.children[0].src === card_flipped.children[0].src && card.children[1].src === card_flipped.children[1].src && card.children[2].src === card_flipped.children[2].src) {
+                for (const child of card_flipped.children) {
+                  child.style.opacity=1;
+                }
+                for (const child of card.children) {
+                  child.style.opacity=1;
+                }
+                pairs_left = pairs_left - 1;
+                if (pairs_left === 0) {
+                  game_active = false;
+                  current_level++;
+                  setTimeout(function () {playLevel(current_level)},2000);
+                }
+              } else {
+                const card_to_be_cleared = card; //Consts are used so that card_flipped can be cleared and this function can be run again
+                card.timer = createTimeout(function() {card_to_be_cleared.timer = null; for (const child of card_to_be_cleared.children) {child.style.opacity=0;}}, 400); //400ms delay so that user can see the card they've just flipped
+                const card_to_be_cleared2 = card_flipped;
+                card_flipped.timer = createTimeout(function() {card_to_be_cleared2.timer = null;for (const child of card_to_be_cleared2.children) {child.style.opacity=0;}}, 400);
+                current_points = current_points * (1-0.05/current_level**3);
+              }
+              card_flipped = false;
+            }
           }
         }
       }
