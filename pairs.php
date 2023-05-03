@@ -10,10 +10,10 @@
       let game_active;
       let start, previousTimeStamp;
       let card_flipped = false;
-      let current_points = 0;
+      let current_points;
       let pairs_left;
       let pairs;
-      let current_level = 1;
+      let current_level;
 
       function getRandomInteger(min, max) {
         return Math.floor(Math.random() * (max - min + 1) ) + min;
@@ -136,18 +136,24 @@
         if (level === 1) {
           document.getElementById("start_button").style.display="none";
           document.getElementById("pairs").style.display="block";
+          document.getElementById("round point counter").style.display="block";
           total_points=0;
-          createLevel(2,2,3);
+          current_points=0;
+          current_level=1;
+          createLevel(2,2,1);
         } else if (level === 2) {
-          createLevel(2,3,4);
+          createLevel(2,2,1);
         } else if (level === 3) {
-          createLevel(2,4,5);
+          createLevel(2,2,1);
         } else {
           updatePoints();
-          while (document.getElementById("level").firstChild) {
-            document.getElementById("level").firstChild.remove()
+          level = document.getElementById("level");
+          while (level.firstChild) {
+            level.firstChild.remove();
           }
-          document.getElementById("round point counter").remove();
+          document.getElementById("round point counter").style.display="none";
+
+          level.insertAdjacentHTML("beforeend","<button id='start_button' onclick=\"playLevel(1)\">Play Again</button>");
         }
       }
 

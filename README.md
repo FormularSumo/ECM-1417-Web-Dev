@@ -23,4 +23,6 @@ pairs.php
   Emojis can't be dragged to prevent a user creating a ghost copy of an emoji following their mouse, which defeats the point of the game (memory!)
 
   Card images are randomly generated and ordered, such that there's always 2 (or very rarely, 4, 6 etc) of each card
-  Once all pairs have been matched, round ends and round points pauses
+  Once all pairs have been matched, round ends and round points pauses. After 2 seconds the next round starts - cards are replaced and round points added to total
+  Points go down slower on higher levels to compensate for there being more cards
+  Once all levels are complete cards and round points disappear and play again buttons appears
