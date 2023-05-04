@@ -385,7 +385,7 @@
       </div>
     </div>
 
-    <audio id="Level complete" controls>
+    <audio id="Level complete" controls style="display:none">
       <source src="sound effects/Level complete.mp3" type="audio/mp3">
     </audio>
   </body>
