@@ -14,7 +14,7 @@ register.php:
   Registration fails and message explaining why if special charater used in username
   If user decides to re-register later (eg they want to change their username or avatar), existing avatar is hidden from navbar
 
-pairs.php
+pairs.php:
   'Points this round' shows how many points can still be earnt when the level is completed. These points go down over time - proportionally slower as the round goes on. Selecting a wrong pair also reduces points slightly. Points go down slower on harder levels to compensate for there being more cards and more cards needed to form a 'pair'. 'Previous highscore for this level' shows the best score accomplished in the past by the user, or says 'none' if they haven't completed this level before. 'Total points' accumlates as the user completes levels, and 'This round [x] cards at a time need matching together' tells the user how many cards are needed to form a pair.
 
   Clicking on a card reveals its emoji at 80% opacity, the card then can't be flipped back over until a different card is chosen
