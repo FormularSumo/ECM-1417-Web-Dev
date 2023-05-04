@@ -15,14 +15,15 @@ register.php:
   If user decides to re-register later (eg they want to change their username or avatar), existing avatar is hidden from navbar
 
 pairs.php
-  Start button that disppears when pressed to reveal game
-  Points go down over time - proportionally slower as the round goes on. Selecting a wrong pair also reduces points, by 5%
-  Clicking on a card reveals the emoji at 80% opacity, the card then can't be flipped back over until a different card is chosen
-  The emoji on the 2nd card is also revealed. If the cards match, the emojis show at 100% opacity, if not they hide again after 400 ms
-  Clicking on a card that's scedulded to be flipped back over cancels that flip and keeps the card flipped up until it next needs to be flipped back over (eg click on a couple of incorrect cards then very quickly click on one of those cards again before it flips back over)
-  Emojis can't be dragged to prevent a user creating a ghost copy of an emoji following their mouse, which defeats the point of the game (memory!)
+  'Points this round' shows how many points can still be earnt when the level is completed. These points go down over time - proportionally slower as the round goes on. Selecting a wrong pair also reduces points slightly. Points go down slower on harder levels to compensate for there being more cards and more cards needed to form a 'pair'. 'Previous highscore for this level' shows the best score accomplished in the past by the user, or says 'none' if they haven't completed this level before. 'Total points' accumlates as the user completes levels, and 'This round [x] cards at a time need matching together' tells the user how many cards are needed to form a pair.
 
-  Card images are randomly generated and ordered, such that there's always 2 (or very rarely, 4, 6 etc) of each card
-  Once all pairs have been matched, round ends and round points pauses. After 2 seconds the next round starts - cards are replaced and round points added to total
-  Points go down slower on higher levels to compensate for there being more cards
-  Once all levels are complete cards and round points disappear and play again buttons appears
+  Clicking on a card reveals its emoji at 80% opacity, the card then can't be flipped back over until a different card is chosen
+  The emoji on the next card clicked is also revealed. If the cards don't match, they all hide again after 400 ms. Otherwise they remain flipped. If all the matches have been found, the emojis show at 100% opacity and a completion sound is played to indicate a completed pair.
+  Clicking on a card that's scedulded to be flipped back over cancels that flip and keeps the card flipped up until it next needs to be flipped back over (eg click on a couple of incorrect cards then within the 400ms window click on one of those cards again before it flips back over)
+  Emoji images can't be dragged to prevent a user creating a ghost copy of an emoji following their mouse, as that would defeat the point of the game (memory!)
+
+  Emoji images are randomly generated and ordered, such that there's always the correct number of matching cards to complete a level
+  Once all pairs have been matched, round ends, round completion sound is played and round points freezes. Background turns gold if previous highscore for that level has been beaten and it's not the first time the level has been played. After 1.8 seconds the next round starts - cards are replaced and round points added to total points.
+  Once all the levels are complete, cards and round points disappear and play again, submit score, and create level buttons appears.
+
+  Create level provides a form allowing the user to create a custom level with their choice of matches in a pair, rows, and columns. If the total number of cards would be individible by that number of matches an error message is displayed explaining this to the user.
