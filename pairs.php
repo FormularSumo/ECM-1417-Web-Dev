@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="style.css">
 
     <script>
-      "use strict"
+      "use strict";
       let totalPoints;
       let gameActive;
       let start, previousTimestamp;
@@ -92,6 +92,31 @@
 
       function updatePoints() {
         totalPoints = totalPoints + currentPoints;
+
+        if (currentLevel != -1) {
+          let currentHighscore = currentLevel + "Highscore";
+          if (getCookie(currentHighscore) != "") {
+            if (getCookie(currentHighscore) < currentPoints) {
+              if (getCookie(currentHighscore) != 0) {
+                document.getElementById("content").style.backgroundColor = "#FFD700";
+                setTimeout(function () {document.getElementById("content").style.backgroundColor = "grey";}, 2000)
+              }
+              document.cookie=currentHighscore + "=" + currentPoints;
+            }
+          } else {
+            document.cookie=currentHighscore + "=" + currentPoints;
+          }
+        }
+      }
+
+      function redrawPoints() {
+        let currentHighscore = currentLevel + "Highscore";
+        if (getCookie(currentHighscore) == "") {
+          document.getElementById("level highscore").innerHTML = "Previous highscore for this level: none";
+        } else {
+          document.getElementById("level highscore").innerHTML = "Previous highscore for this level: " + Math.round(getCookie(currentHighscore));
+        }
+
         document.getElementById("total point counter").innerHTML = "Total points: " + Math.round(totalPoints);
       }
 
@@ -134,7 +159,7 @@
           }
         }
 
-        updatePoints();
+        redrawPoints()
         currentPoints = 1000;
         gameActive=true;
         window.requestAnimationFrame(update);
@@ -145,19 +170,21 @@
           document.getElementById("start button").style.display="none";
           document.getElementById("pairs").style.display="block";
           document.getElementById("round point counter").style.display="block";
+          document.getElementById("level highscore").style.display="block";
+          document.getElementById("total point counter").innerHTML = "Total points: 0";
           totalPoints=0;
           currentPoints=0;
           currentLevel=1;
           start=undefined;
+          redrawPoints()
           createLevel(2,2,3);
-        // } else if (level === 2) {
-        //   createLevel(2,2,5);
+        } else if (level === 2) {
+          createLevel(2,2,5);
         // } else if (level === 3) {
         //   createLevel(3,3,4);
         // } else if (level === 4) {
         //   createLevel(4,4,5);
         } else {
-          updatePoints();
           level = document.getElementById("level");
           while (level.firstChild) {
             level.firstChild.remove();
@@ -165,6 +192,9 @@
           document.getElementById("round point counter").style.display="none";
           document.getElementById("total point counter").style.display="block";
           document.getElementById("cards in need of matching").style.display="none";
+          document.getElementById("level highscore").style.display="none";
+          document.getElementById("total point counter").innerHTML = "Total points: " + Math.round(totalPoints);
+          currentPoints=0;
 
           level.insertAdjacentHTML("beforeend","<button id='start button' onclick=\"playLevel(1)\">Play Again</button><br><br>");
           level.insertAdjacentHTML("beforeend","<button id='custom level button' onclick=\"customLevel()\">Create level</button>");
@@ -250,8 +280,9 @@
               pairsLeft = pairsLeft - 1;
               if (pairsLeft === 0) {
                 gameActive = false;
+                updatePoints();
                 currentLevel++;
-                setTimeout(function () {playLevel(currentLevel)},2000);
+                setTimeout(function () {playLevel(currentLevel);},2000);
               } else {
                 for (let i=0;i<cardsFlipped.length;i++) {
                   cardsFlipped[i] = false;
@@ -307,6 +338,7 @@
         <div id='pairs' style="display:none; width=80%;">
           <p id='total point counter'>Total points: 0</p>
           <p id='round point counter'>Points this round: 1000</p>
+          <p id='level highscore'>Previous highscore for this level: none</p>
           <p id='cards in need of matching'>This round 2 cards at a time need matching together</p>
 
           <div id='level' class='grid'></div>
