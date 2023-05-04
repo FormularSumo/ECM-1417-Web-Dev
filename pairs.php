@@ -16,6 +16,7 @@
       let pairs;
       let currentLevel;
       let pairSize;
+      let totalCards;
 
       function getRandomInteger(min, max) {
         return Math.floor(Math.random() * (max - min + 1) ) + min;
@@ -94,7 +95,8 @@
         document.getElementById("total point counter").innerHTML = "Total points: " + Math.round(totalPoints);
       }
 
-      function createLevel(pairSize,rows,columns) {
+      function createLevel(size,rows,columns) {
+        pairSize = size;
         document.getElementById("cards in need of matching").innerHTML = "This round " + pairSize + " cards at a time need matching together";
         cardsFlipped = [];
         for (let i=0;i<pairSize-1;i++) {
@@ -119,7 +121,7 @@
         level.style.gridTemplateRows = "repeat(rows, 1fr)";
         level.style.gridTemplateColumns = "repeat(columns, 1fr)";
 
-        let totalCards = 0;
+        totalCards = 0;
         for (let row=1;row<=rows;row++) {
           for (let column=1;column<=columns;column++) {
             level.insertAdjacentHTML("beforeend","<div class='card' style='grid-column: " + column + "1; grid-row: " + row + "1;'>");
@@ -225,7 +227,7 @@
             for (const card2 of cardsFlipped) {
               if (card2 != false) {
                 card2.timer = createTimeout(function() {card2.timer = null; flipCard(card2,0);}, 400);
-                currentPoints = currentPoints * (1-0.05/currentLevel**3);
+                currentPoints = currentPoints * (1-0.05/(totalCards/6*pairSize/2));
               }
             }
             
@@ -244,7 +246,7 @@
         const elapsed = timestamp - start;
 
         if (previousTimestamp !== timestamp) {
-          currentPoints = currentPoints - (timestamp-previousTimestamp) * 0.0002 * (currentPoints/1000)**2.5 / currentLevel**3;
+          currentPoints = currentPoints - (timestamp-previousTimestamp) * 0.05 * (currentPoints/1000)**2.5 / (totalCards/6*pairSize/2);
           document.getElementById("round point counter").innerHTML = "Points this round: " + Math.round(currentPoints);
         }
 
