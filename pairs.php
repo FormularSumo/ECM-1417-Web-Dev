@@ -6,23 +6,23 @@
     <link rel="stylesheet" href="style.css">
 
     <script>
-      let total_points;
-      let game_active;
-      let start, previousTimeStamp;
-      let cards_flipped;
-      let current_points;
-      let pairs_left;
+      "use strict"
+      let totalPoints;
+      let gameActive;
+      let start, previousTimestamp;
+      let cardsFlipped;
+      let currentPoints;
+      let pairsLeft;
       let pairs;
-      let current_level;
-      let pair_size;
+      let currentLevel;
+      let pairSize;
 
       function getRandomInteger(min, max) {
         return Math.floor(Math.random() * (max - min + 1) ) + min;
       }
 
-      function createTimeout(timeoutHandler, delay) {
-        var timeoutId;
-        timeoutId = setTimeout(timeoutHandler, delay);
+      function createTimeout(timeouthandler, delay) {
+        const timeoutId = setTimeout(timeouthandler, delay);
         return {
           clear: function() {
             clearTimeout(timeoutId);
@@ -30,14 +30,14 @@
         };
       }
 
-      function cloneArray(array, cloneAmount){
-        var temporary_array = [];
-        for(i=0; i<array.length; i++){
-          for(j=0; j<cloneAmount; j++){
-            temporary_array.push(array[i]);
+      function cloneArray(array, clone_amount){
+        let temporaryArray = [];
+        for(let i=0; i<array.length; i++){
+          for(let j=0; j<clone_amount; j++){
+            temporaryArray.push(array[i]);
           }
         }
-        return temporary_array;
+        return temporaryArray;
       }
 
       function shuffleArray(array) {
@@ -48,93 +48,93 @@
       }
 
       function arrayToEmoji(array) {
-        array2=[]
+        let newArray=[];
 
         if (array[0] === 0) {
-          array2.push('emoji assets/skin/green.png')
+          newArray.push('emoji assets/skin/green.png');
         } else if (array[0] === 1) {
-          array2.push('emoji assets/skin/red.png')
+          newArray.push('emoji assets/skin/red.png');
         } else if (array[0] === 2) {
-          array2.push('emoji assets/skin/yellow.png')
+          newArray.push('emoji assets/skin/yellow.png');
         }
 
         if (array[1] === 0) {
-          array2.push('emoji assets/eyes/closed.png')
+          newArray.push('emoji assets/eyes/closed.png');
         } else if (array[1] === 1) {
-          array2.push('emoji assets/eyes/laughing.png')
+          newArray.push('emoji assets/eyes/laughing.png');
         } else if (array[1] === 2) {
-          array2.push('emoji assets/eyes/long.png')
+          newArray.push('emoji assets/eyes/long.png');
         } else if (array[1] === 3) {
-          array2.push('emoji assets/eyes/normal.png')
+          newArray.push('emoji assets/eyes/normal.png');
         } else if (array[1] === 4) {
-          array2.push('emoji assets/eyes/rolling.png')
+          newArray.push('emoji assets/eyes/rolling.png');
         } else if (array[1] === 5) {
-          array2.push('emoji assets/eyes/winking.png')
+          newArray.push('emoji assets/eyes/winking.png');
         }
 
         if (array[2] === 0) {
-          array2.push('emoji assets/mouth/open.png')
+          newArray.push('emoji assets/mouth/open.png');
         } else if (array[2] === 1) {
-          array2.push('emoji assets/mouth/sad.png')
+          newArray.push('emoji assets/mouth/sad.png');
         } else if (array[2] === 2) {
-          array2.push('emoji assets/mouth/smiling.png')
+          newArray.push('emoji assets/mouth/smiling.png');
         } else if (array[2] === 3) {
-          array2.push('emoji assets/mouth/straight.png')
+          newArray.push('emoji assets/mouth/straight.png');
         } else if (array[2] === 4) {
-          array2.push('emoji assets/mouth/surprise.png')
+          newArray.push('emoji assets/mouth/surprise.png');
         } else if (array[2] === 5) {
-          array2.push('emoji assets/mouth/teeth.png')
+          newArray.push('emoji assets/mouth/teeth.png');
         }
 
-        return array2;
+        return newArray;
       }
 
       function updatePoints() {
-        total_points = total_points + current_points;
-        document.getElementById("total point counter").innerHTML = "Total points: " + Math.round(total_points);
+        totalPoints = totalPoints + currentPoints;
+        document.getElementById("total point counter").innerHTML = "Total points: " + Math.round(totalPoints);
       }
 
-      function createLevel(pair_size,rows,columns) {
-        document.getElementById("cards in need of matching").innerHTML = "This round " + pair_size + " cards at a time need matching together";
-        cards_flipped = []
-        for (i=0;i<pair_size-1;i++) {
-          cards_flipped.push(false);
+      function createLevel(pairSize,rows,columns) {
+        document.getElementById("cards in need of matching").innerHTML = "This round " + pairSize + " cards at a time need matching together";
+        cardsFlipped = [];
+        for (let i=0;i<pairSize-1;i++) {
+          cardsFlipped.push(false);
         }
         pairs = [];
-        pairs_left = (rows*columns) / pair_size;
+        pairsLeft = (rows*columns) / pairSize;
 
-        for (let i=0; i < pairs_left; i++) {
+        for (let i=0; i < pairsLeft; i++) {
           pairs.push(arrayToEmoji([getRandomInteger(0,2),getRandomInteger(0,5),getRandomInteger(0,5)]));
         }
 
-        pairs = cloneArray(pairs,pair_size);
+        pairs = cloneArray(pairs,pairSize);
         shuffleArray(pairs);
 
         level = document.getElementById("level");
 
         while (level.firstChild) {
-          level.firstChild.remove()
+          level.firstChild.remove();
         }
 
         level.style.gridTemplateRows = "repeat(rows, 1fr)";
         level.style.gridTemplateColumns = "repeat(columns, 1fr)";
 
-        let total_cards = 0;
+        let totalCards = 0;
         for (let row=1;row<=rows;row++) {
           for (let column=1;column<=columns;column++) {
             level.insertAdjacentHTML("beforeend","<div class='card' style='grid-column: " + column + "1; grid-row: " + row + "1;'>");
             const card = level.lastChild;
             card.addEventListener("click",() => clicked(card));
             for (let img=0;img<3;img++) {
-              card.insertAdjacentHTML("beforeend","<img src=\"" + pairs[total_cards][img] + "\" height=80px draggable=false style=\"grid-column: 1; grid-row: 1; z-index: 0;\">");
+              card.insertAdjacentHTML("beforeend","<img src=\"" + pairs[totalCards][img] + "\" height=80px draggable=false style=\"grid-column: 1; grid-row: 1; z-index: 0;\">");
             }
-            total_cards++;
+            totalCards++;
           }
         }
 
         updatePoints();
-        current_points = 1000;
-        game_active=true;
+        currentPoints = 1000;
+        gameActive=true;
         window.requestAnimationFrame(update);
       }
 
@@ -143,9 +143,9 @@
           document.getElementById("start_button").style.display="none";
           document.getElementById("pairs").style.display="block";
           document.getElementById("round point counter").style.display="block";
-          total_points=0;
-          current_points=0;
-          current_level=1;
+          totalPoints=0;
+          currentPoints=0;
+          currentLevel=1;
           start=undefined;
           createLevel(2,2,3);
         } else if (level === 2) {
@@ -177,62 +177,60 @@
       }
 
       function clicked(card) {
-        if (game_active && cards_flipped.includes(card) === false && card.firstChild.style.opacity != 1) {
-          first_flip = (cards_flipped[0] === false);
+        if (gameActive && cardsFlipped.includes(card) === false && card.firstChild.style.opacity != 1) {
+          const firstFlip = (cardsFlipped[0] === false);
 
-          if (first_flip == true) {
+          if (firstFlip == true) {
             flipCard(card,0.8);
-            cards_flipped[0] = card;
+            cardsFlipped[0] = card;
 
-          } else if (card.children[0].src === cards_flipped[0].children[0].src && card.children[1].src === cards_flipped[0].children[1].src && card.children[2].src === cards_flipped[0].children[2].src){
-            
-            for (let i=0;i<cards_flipped.length;i++) {
-              if (cards_flipped[i] === false) {
-                next_flip = i;
+          } else if (card.children[0].src === cardsFlipped[0].children[0].src && card.children[1].src === cardsFlipped[0].children[1].src && card.children[2].src === cardsFlipped[0].children[2].src) {
+            let nextFlip;
+            for (let i=0;i<cardsFlipped.length;i++) {
+              if (cardsFlipped[i] === false) {
+                nextFlip = i;
                 break;
               } else {
-                next_flip = false;
+                nextFlip = false;
               }
             }
 
-            if (next_flip != false) {
-
+            if (nextFlip != false) {
               flipCard(card,0.8);
-              cards_flipped[next_flip] = card;
+              cardsFlipped[nextFlip] = card;
 
             } else {
 
-              for (card2 of cards_flipped) {
-                flipCard(card2,1)
+              for (const card2 of cardsFlipped) {
+                flipCard(card2,1);
               }
-              flipCard(card,1)
+              flipCard(card,1);
 
-              pairs_left = pairs_left - 1;
-              if (pairs_left === 0) {
-                game_active = false;
-                current_level++;
-                setTimeout(function () {playLevel(current_level)},2000);
+              pairsLeft = pairsLeft - 1;
+              if (pairsLeft === 0) {
+                gameActive = false;
+                currentLevel++;
+                setTimeout(function () {playLevel(currentLevel)},2000);
               } else {
-                for (let i=0;i<cards_flipped.length;i++) {
-                  cards_flipped[i] = false
+                for (let i=0;i<cardsFlipped.length;i++) {
+                  cardsFlipped[i] = false;
                 }
               }
-              
             }
           } else {
             flipCard(card,0.8);
 
-            const card3 = card
+            const card3 = card;
             card.timer = createTimeout(function() {card3.timer = null; flipCard(card3,0);}, 400); //400ms delay so that user can see the card they've just flipped
-            for (const card2 of cards_flipped) {
+            for (const card2 of cardsFlipped) {
               if (card2 != false) {
                 card2.timer = createTimeout(function() {card2.timer = null; flipCard(card2,0);}, 400);
-                current_points = current_points * (1-0.05/current_level**3);
+                currentPoints = currentPoints * (1-0.05/currentLevel**3);
               }
             }
             
-            for (let i=0;i<cards_flipped.length;i++) {
-              cards_flipped[i] = false
+            for (let i=0;i<cardsFlipped.length;i++) {
+              cardsFlipped[i] = false;
             }
           }
         }
@@ -241,17 +239,17 @@
       function update(timestamp) {
         if (start === undefined) {
           start = timestamp;
-          previous_timestamp=timestamp
+          previousTimestamp=timestamp;
         }
         const elapsed = timestamp - start;
 
-        if (previousTimeStamp !== timestamp) {
-          current_points = current_points - (timestamp-previous_timestamp) * 0.0002 * (current_points/1000)**2.5 / current_level**3;
-          document.getElementById("round point counter").innerHTML = "Points this round: " + Math.round(current_points);
+        if (previousTimestamp !== timestamp) {
+          currentPoints = currentPoints - (timestamp-previousTimestamp) * 0.0002 * (currentPoints/1000)**2.5 / currentLevel**3;
+          document.getElementById("round point counter").innerHTML = "Points this round: " + Math.round(currentPoints);
         }
 
-        previous_TimeStamp = timestamp;
-        if (game_active==true) {
+        previousTimestamp = timestamp;
+        if (gameActive==true) {
           window.requestAnimationFrame(update);
         }
       }
@@ -272,7 +270,7 @@
 
           <div id='level' class='grid'></div>
         </div>
-        <button id='start_button' onclick="playLevel(1)">Click here to play</button>
+        <button id='start_button' onclick="playLevel(1);">Click here to play</button>
       </div>
     </div>
   </body>
