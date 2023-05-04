@@ -17,6 +17,7 @@
       let currentLevel;
       let pairSize;
       let totalCards;
+      let scores;
 
       function getRandomInteger(min, max) {
         return Math.floor(Math.random() * (max - min + 1) ) + min;
@@ -101,6 +102,7 @@
 
       function updatePoints() {
         totalPoints = totalPoints + currentPoints;
+        scores.push(currentPoints);
 
         if (currentLevel != -1) {
           let currentHighscore = currentLevel + "Highscore";
@@ -108,7 +110,7 @@
             if (getCookie(currentHighscore) < currentPoints) {
               if (getCookie(currentHighscore) != 0) {
                 document.getElementById("content").style.backgroundColor = "#FFD700";
-                setTimeout(function () {document.getElementById("content").style.backgroundColor = "grey";}, 2000)
+                setTimeout(function () {document.getElementById("content").style.backgroundColor = "grey";}, 1800)
               }
               document.cookie=currentHighscore + "=" + currentPoints;
             }
@@ -174,60 +176,28 @@
         window.requestAnimationFrame(update);
       }
 
-      function playLevel(level) {
-        if (level === 1) {
-          document.getElementById("start button").style.display="none";
-          document.getElementById("pairs").style.display="block";
-          document.getElementById("round point counter").style.display="block";
-          document.getElementById("level highscore").style.display="block";
-          document.getElementById("total point counter").innerHTML = "Total points: 0";
-          totalPoints=0;
-          currentPoints=0;
-          currentLevel=1;
-          start=undefined;
-          redrawPoints()
-          createLevel(2,2,3);
-        } else if (level === 2) {
-          createLevel(2,2,5);
-        // } else if (level === 3) {
-        //   createLevel(3,3,4);
-        // } else if (level === 4) {
-        //   createLevel(4,4,5);
-        } else {
-          level = document.getElementById("level");
-          while (level.firstChild) {
-            level.firstChild.remove();
-          }
-          document.getElementById("round point counter").style.display="none";
-          document.getElementById("total point counter").style.display="block";
-          document.getElementById("cards in need of matching").style.display="none";
-          document.getElementById("level highscore").style.display="none";
-          document.getElementById("total point counter").innerHTML = "Total points: " + Math.round(totalPoints);
-          currentPoints=0;
-
-          level.insertAdjacentHTML("beforeend","<button id='start button' onclick=\"playLevel(1)\">Play Again</button><br><br>");
-          level.insertAdjacentHTML("beforeend","<button id='custom level button' onclick=\"customLevel()\">Create level</button>");
-        }
-      }
-
       function createCustomLevel(form) {
         if ((form.rows.value*form.columns.value)%form.pairSize.value == 0) {
+          document.getElementById("total point counter").style.display="block";
           document.getElementById("round point counter").style.display="block";
           document.getElementById("cards in need of matching").style.display="block";
 
           createLevel(form.pairSize.value,form.rows.value,form.columns.value)
         } else {
-          document.getElementById("customLevel").insertAdjacentHTML("afterend","<p>Total cards (rows * columns) must be divisible by pair size</p>")
+          console.log('m')
+          if (document.getElementById("indivisible pair size") === null) {
+            console.log('f')
+            document.getElementById("customLevel").insertAdjacentHTML("afterend","<p id='indivisible pair size'>Total cards (rows * columns) must be divisible by pair size</p>")
+          }
         }
       }
 
       function customLevel() {
-        document.getElementById("start button").style.display="none";
-        document.getElementById("custom level button").style.display="none";
+        document.getElementById("start button").remove();
         document.getElementById("total point counter").style.display="none";
         
         totalPoints=0;
-        currentPoints=0;
+        currentPoints=1000;
         currentLevel=-1;
 
         level.insertAdjacentHTML("beforeend",`
@@ -245,6 +215,63 @@
           <input type="submit" value="Play">
         </form>`
         )
+      }
+
+      function playLevel(level) {
+        if (level === 1) {
+          document.getElementById("start button").remove();
+          document.getElementById("pairs").style.display="block";
+          document.getElementById("level highscore").style.display="block";
+          
+          totalPoints=0;
+          currentPoints=0;
+          currentLevel=1;
+          scores = [];
+          redrawPoints()
+          createLevel(2,2,3);
+        // } else if (level === 2) {
+        //   createLevel(2,2,5);
+        // } else if (level === 3) {
+        //   createLevel(3,3,4);
+        // } else if (level === 4) {
+        //   createLevel(4,4,5);
+        } else {
+          level = document.getElementById("level");
+          while (level.firstChild) {
+            level.firstChild.remove();
+          }
+          document.getElementById("round point counter").style.display="none";
+          document.getElementById("total point counter").style.display="block";
+          document.getElementById("cards in need of matching").style.display="none";
+          document.getElementById("level highscore").style.display="none";
+          document.getElementById("total point counter").innerHTML = "Total points: " + Math.round(totalPoints);
+          currentPoints=0;
+
+          level.insertAdjacentHTML("beforeend","<button id='start button' onclick=\"replay('playLevel(1)')\">Play Again</button><br><br>");
+          level.insertAdjacentHTML("beforeend","<button id='custom level button' onclick=\"replay('customLevel()')\">Create level</button>");
+          if (currentLevel != 0) {
+            level.insertAdjacentHTML("beforeend","<button id='submit score' onclick=\"updateLeaderboard()\">Submit scores to leaderboard</button>");
+          }
+        }
+      }
+
+      function replay(play) {
+        document.getElementById("custom level button").remove();
+        if (document.getElementById("submit score")) {document.getElementById("submit score").remove()};
+        
+        if (play != 'customLevel()') {
+          document.getElementById("round point counter").style.display="block";
+        }
+        document.getElementById("total point counter").innerHTML = "Total points: 0";
+        start=undefined;
+
+        eval(play);
+      }
+
+      function updateLeaderboard () {
+        document.getElementById("submit score").remove()
+
+        level.insertAdjacentHTML("beforeend","<p id='submit score'>Scores submitted<br>Open leaderboard to see</p>");
       }
 
       function flipCard(card,opacity) {
@@ -292,7 +319,7 @@
                 gameActive = false;
                 updatePoints();
                 currentLevel++;
-                setTimeout(function () {playLevel(currentLevel);},2000);
+                setTimeout(function () {playLevel(currentLevel);},1800);
               } else {
                 playSound("Match"); //Creating a new copy of the sound allows it to be played multiple times if a user is very quick at matching cards
                 for (let i=0;i<cardsFlipped.length;i++) {
