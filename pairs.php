@@ -9,11 +9,12 @@
       let total_points;
       let game_active;
       let start, previousTimeStamp;
-      let card_flipped = false;
+      let cards_flipped;
       let current_points;
       let pairs_left;
       let pairs;
       let current_level;
+      let pair_size;
 
       function getRandomInteger(min, max) {
         return Math.floor(Math.random() * (max - min + 1) ) + min;
@@ -93,15 +94,20 @@
         document.getElementById("total point counter").innerHTML = "Total points: " + Math.round(total_points);
       }
 
-      function createLevel(pairSize,rows,columns) {
+      function createLevel(pair_size,rows,columns) {
+        document.getElementById("cards in need of matching").innerHTML = "This round " + pair_size + " cards at a time need matching together";
+        cards_flipped = []
+        for (i=0;i<pair_size-1;i++) {
+          cards_flipped.push(false);
+        }
         pairs = [];
-        pairs_left = (rows*columns) / pairSize;
+        pairs_left = (rows*columns) / pair_size;
 
         for (let i=0; i < pairs_left; i++) {
           pairs.push(arrayToEmoji([getRandomInteger(0,2),getRandomInteger(0,5),getRandomInteger(0,5)]));
         }
 
-        pairs = cloneArray(pairs,pairSize);
+        pairs = cloneArray(pairs,pair_size);
         shuffleArray(pairs);
 
         level = document.getElementById("level");
@@ -113,16 +119,16 @@
         level.style.gridTemplateRows = "repeat(rows, 1fr)";
         level.style.gridTemplateColumns = "repeat(columns, 1fr)";
 
-        let cards = 0;
+        let total_cards = 0;
         for (let row=1;row<=rows;row++) {
           for (let column=1;column<=columns;column++) {
             level.insertAdjacentHTML("beforeend","<div class='card' style='grid-column: " + column + "1; grid-row: " + row + "1;'>");
             const card = level.lastChild;
             card.addEventListener("click",() => clicked(card));
             for (let img=0;img<3;img++) {
-              card.insertAdjacentHTML("beforeend","<img src=\"" + pairs[cards][img] + "\" height=80px draggable=false style=\"grid-column: 1; grid-row: 1; z-index: 0;\">");
+              card.insertAdjacentHTML("beforeend","<img src=\"" + pairs[total_cards][img] + "\" height=80px draggable=false style=\"grid-column: 1; grid-row: 1; z-index: 0;\">");
             }
-            cards++;
+            total_cards++;
           }
         }
 
@@ -141,11 +147,13 @@
           current_points=0;
           current_level=1;
           start=undefined;
-          createLevel(2,2,1);
+          createLevel(2,2,3);
         } else if (level === 2) {
-          createLevel(2,2,1);
+          createLevel(2,2,5);
         } else if (level === 3) {
-          createLevel(2,2,1);
+          createLevel(3,3,4);
+        } else if (level === 4) {
+          createLevel(4,4,5);
         } else {
           updatePoints();
           level = document.getElementById("level");
@@ -153,49 +161,78 @@
             level.firstChild.remove();
           }
           document.getElementById("round point counter").style.display="none";
+          document.getElementById("cards in need of matching").style.display="none";
 
           level.insertAdjacentHTML("beforeend","<button id='start_button' onclick=\"playLevel(1)\">Play Again</button>");
         }
       }
 
+      function flipCard(card,opacity) {
+        for (const child of card.children) {
+          child.style.opacity=opacity;
+        }
+        if (card.timer) {
+          card.timer.clear();
+        }
+      }
+
       function clicked(card) {
-        if (game_active) {
-          if (card_flipped == false) {
-            card_flipped = card;
-            for (const child of card_flipped.children) {
-              child.style.opacity=0.8;
+        if (game_active && cards_flipped.includes(card) === false && card.firstChild.style.opacity != 1) {
+          first_flip = (cards_flipped[0] === false);
+
+          if (first_flip == true) {
+            flipCard(card,0.8);
+            cards_flipped[0] = card;
+
+          } else if (card.children[0].src === cards_flipped[0].children[0].src && card.children[1].src === cards_flipped[0].children[1].src && card.children[2].src === cards_flipped[0].children[2].src){
+            
+            for (let i=0;i<cards_flipped.length;i++) {
+              if (cards_flipped[i] === false) {
+                next_flip = i;
+                break;
+              } else {
+                next_flip = false;
+              }
             }
-            if (card_flipped.timer) {
-              card_flipped.timer.clear();
+
+            if (next_flip != false) {
+
+              flipCard(card,0.8);
+              cards_flipped[next_flip] = card;
+
+            } else {
+
+              for (card2 of cards_flipped) {
+                flipCard(card2,1)
+              }
+              flipCard(card,1)
+
+              pairs_left = pairs_left - 1;
+              if (pairs_left === 0) {
+                game_active = false;
+                current_level++;
+                setTimeout(function () {playLevel(current_level)},2000);
+              } else {
+                for (let i=0;i<cards_flipped.length;i++) {
+                  cards_flipped[i] = false
+                }
+              }
+              
             }
           } else {
-            for (const child of card.children) {
-              child.style.opacity=0.8;
-            }
-            if (card.timer) {
-              card.timer.clear();
-            } else if (card_flipped != card) {
-              if (card_flipped != card && card.children[0].src === card_flipped.children[0].src && card.children[1].src === card_flipped.children[1].src && card.children[2].src === card_flipped.children[2].src) {
-                for (const child of card_flipped.children) {
-                  child.style.opacity=1;
-                }
-                for (const child of card.children) {
-                  child.style.opacity=1;
-                }
-                pairs_left = pairs_left - 1;
-                if (pairs_left === 0) {
-                  game_active = false;
-                  current_level++;
-                  setTimeout(function () {playLevel(current_level)},2000);
-                }
-              } else {
-                const card_to_be_cleared = card; //Consts are used so that card_flipped can be cleared and this function can be run again
-                card.timer = createTimeout(function() {card_to_be_cleared.timer = null; for (const child of card_to_be_cleared.children) {child.style.opacity=0;}}, 400); //400ms delay so that user can see the card they've just flipped
-                const card_to_be_cleared2 = card_flipped;
-                card_flipped.timer = createTimeout(function() {card_to_be_cleared2.timer = null;for (const child of card_to_be_cleared2.children) {child.style.opacity=0;}}, 400);
+            flipCard(card,0.8);
+
+            const card3 = card
+            card.timer = createTimeout(function() {card3.timer = null; flipCard(card3,0);}, 400); //400ms delay so that user can see the card they've just flipped
+            for (const card2 of cards_flipped) {
+              if (card2 != false) {
+                card2.timer = createTimeout(function() {card2.timer = null; flipCard(card2,0);}, 400);
                 current_points = current_points * (1-0.05/current_level**3);
               }
-              card_flipped = false;
+            }
+            
+            for (let i=0;i<cards_flipped.length;i++) {
+              cards_flipped[i] = false
             }
           }
         }
@@ -231,6 +268,7 @@
         <div id='pairs' style="display:none; width=80%;">
           <p id='total point counter'>Total points: 0</p>
           <p id='round point counter'>Points this round: 1000</p>
+          <p id='cards in need of matching'>This round 2 cards at a time need matching together</p>
 
           <div id='level' class='grid'></div>
         </div>
