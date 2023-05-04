@@ -31,6 +31,15 @@
         };
       }
 
+      function playSound (id) { //Creates an audio element of the sound effect and plays it, then deletes the element upon completion
+        let audio = document.createElement("audio");
+        audio.src = "sound effects/" + id + ".mp3";
+        audio.addEventListener("ended", function () {
+          this.remove();
+        });
+        audio.play()
+      }
+
       function cloneArray(array, clone_amount){
         let temporaryArray = [];
         for(let i=0; i<array.length; i++){
@@ -279,11 +288,13 @@
 
               pairsLeft = pairsLeft - 1;
               if (pairsLeft === 0) {
+                document.getElementById("Level complete").play(); //No need for multiple Level complete sounds to play at once as the pause after completing a level is longer than the sound
                 gameActive = false;
                 updatePoints();
                 currentLevel++;
                 setTimeout(function () {playLevel(currentLevel);},2000);
               } else {
+                playSound("Match"); //Creating a new copy of the sound allows it to be played multiple times if a user is very quick at matching cards
                 for (let i=0;i<cardsFlipped.length;i++) {
                   cardsFlipped[i] = false;
                 }
@@ -346,5 +357,9 @@
         <button id='start button' onclick="playLevel(1);">Click here to play</button>
       </div>
     </div>
+
+    <audio id="Level complete" controls>
+      <source src="sound effects/Level complete.mp3" type="audio/mp3">
+    </audio>
   </body>
 </html>
