@@ -142,7 +142,7 @@
 
       function playLevel(level) {
         if (level === 1) {
-          document.getElementById("start_button").style.display="none";
+          document.getElementById("start button").style.display="none";
           document.getElementById("pairs").style.display="block";
           document.getElementById("round point counter").style.display="block";
           totalPoints=0;
@@ -150,12 +150,12 @@
           currentLevel=1;
           start=undefined;
           createLevel(2,2,3);
-        } else if (level === 2) {
-          createLevel(2,2,5);
-        } else if (level === 3) {
-          createLevel(3,3,4);
-        } else if (level === 4) {
-          createLevel(4,4,5);
+        // } else if (level === 2) {
+        //   createLevel(2,2,5);
+        // } else if (level === 3) {
+        //   createLevel(3,3,4);
+        // } else if (level === 4) {
+        //   createLevel(4,4,5);
         } else {
           updatePoints();
           level = document.getElementById("level");
@@ -163,10 +163,49 @@
             level.firstChild.remove();
           }
           document.getElementById("round point counter").style.display="none";
+          document.getElementById("total point counter").style.display="block";
           document.getElementById("cards in need of matching").style.display="none";
 
-          level.insertAdjacentHTML("beforeend","<button id='start_button' onclick=\"playLevel(1)\">Play Again</button>");
+          level.insertAdjacentHTML("beforeend","<button id='start button' onclick=\"playLevel(1)\">Play Again</button><br><br>");
+          level.insertAdjacentHTML("beforeend","<button id='custom level button' onclick=\"customLevel()\">Create level</button>");
         }
+      }
+
+      function createCustomLevel(form) {
+        if ((form.rows.value*form.columns.value)%form.pairSize.value == 0) {
+          document.getElementById("round point counter").style.display="block";
+          document.getElementById("cards in need of matching").style.display="block";
+
+          createLevel(form.pairSize.value,form.rows.value,form.columns.value)
+        } else {
+          document.getElementById("customLevel").insertAdjacentHTML("afterend","<p>Total cards (rows * columns) must be divisible by pair size</p>")
+        }
+      }
+
+      function customLevel() {
+        document.getElementById("start button").style.display="none";
+        document.getElementById("custom level button").style.display="none";
+        document.getElementById("total point counter").style.display="none";
+        
+        totalPoints=0;
+        currentPoints=0;
+        currentLevel=-1;
+
+        level.insertAdjacentHTML("beforeend",`
+        
+        <form id='customLevel' action="javascript:createCustomLevel(this);" method="post">
+          <label for="pairSize">Pair size: </label>
+          <input type="text" id="pairSize" name="pairSize"><br>
+
+          <label for="rows">Number of rows: </label>
+          <input type="text" id="rows" name="rows"><br>
+
+          <label for="columns">Number of columns: </label>
+          <input type="text" id="columns" name="columns"><br><br>
+
+          <input type="submit" value="Play">
+        </form>`
+        )
       }
 
       function flipCard(card,opacity) {
@@ -272,7 +311,7 @@
 
           <div id='level' class='grid'></div>
         </div>
-        <button id='start_button' onclick="playLevel(1);">Click here to play</button>
+        <button id='start button' onclick="playLevel(1);">Click here to play</button>
       </div>
     </div>
   </body>
