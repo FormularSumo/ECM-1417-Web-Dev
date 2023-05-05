@@ -3,6 +3,7 @@ ml-lab-4d78f073-aa49-4f0e-bce2-31e5254052c7.ukwest.cloudapp.azure.com:52852/inde
 all:
   Navbar that contains selected emoji avatar and leaderboard if registered user, link to register if not
   Centered background image that fill window width
+  Clearing cookies/using a different browser/private browsing causes username, avatar and individual previous best scores to be reset
 
 index.php:
   Register now button if unregistered user
@@ -12,7 +13,7 @@ register.php:
   Form that allows user to input username and create avatar by choosing skin eyes and mouth of it
   Live avatar preview that updates as user selects skin/eyes/mouth
   Registration fails and message explaining why if special charater used in username
-  If user decides to re-register later (eg they want to change their username or avatar), existing avatar is hidden from navbar
+  If user decides to re-register later (eg they want to change their username or avatar), existing avatar is hidden from navbar, and existing previous highscores are cleared
 
 pairs.php:
   'Points this round' shows how many points can still be earnt when the level is completed. These points go down over time - proportionally slower as the round goes on. Selecting a wrong pair also reduces points slightly. Points go down slower on harder levels to compensate for there being more cards and more cards needed to form a 'pair'. 'Previous highscore for this level' shows the best score accomplished in the past by the user, or says 'none' if they haven't completed this level before. 'Total points' accumlates as the user completes levels, and 'This round [x] cards at a time need matching together' tells the user how many cards are needed to form a pair.
@@ -27,3 +28,9 @@ pairs.php:
   Once all the levels are complete, cards and round points disappear and play again, submit score, and create level buttons appears.
 
   Create level provides a form allowing the user to create a custom level with their choice of matches in a pair, rows, and columns. Appropriate error messages are displayed if non-numeric values are given, there's less than 2 cards or 2 matches, or if the total number of cards would be individible by that number of matches.
+
+leaderboard.php:
+  Displays message if leaderboard empty
+  Otherwise, displays ordered top 10 scores and their respecitve users for total score across all levels and score per levels
+  Leaderboard is stored on apache server as text file and so is the same for anyone who accesses the game, regardless of cookies or other locally stored data
+  Users can submit new scores at any time and this will get added to the leaderboard.

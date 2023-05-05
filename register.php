@@ -7,6 +7,9 @@
       exit();
     }
   }
+  foreach ($_COOKIE as $key => $value) { //Clear cookies in case user has played before and is reregistering, and clear now unneeded login_failed cookie
+    setcookie($key, $value, 1);
+  }
   setcookie("username",$x["username"]);
   setcookie("skin",$x["skin"]);
   setcookie("eyes",$x["eyes"]);
