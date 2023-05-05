@@ -23,6 +23,11 @@
         return Math.floor(Math.random() * (max - min + 1) ) + min;
       }
 
+      function isNumber(str) { //function to work out whether a string is a number
+        if (typeof str != "string") return false
+        return !isNaN(str) && !isNaN(parseFloat(str))
+      }
+
       function createTimeout(timeouthandler, delay) {
         const timeoutId = setTimeout(timeouthandler, delay);
         return {
@@ -184,7 +189,7 @@
           } else if (document.getElementById("error message").innerHTML != "None of the values can be empty..") {
             document.getElementById("error message").innerHTML = "None of the values can be empty";
           }
-        } else if (Number.isInteger(form.rows.value) === false || Number.isInteger(form.columns.value) === false || Number.isInteger(form.pairSize.value) === false) {
+        } else if (isNumber(form.rows.value) === false || isNumber(form.columns.value) === false || isNumber(form.pairSize.value) === false) {
           if (document.getElementById("error message") === null) {
             document.getElementById("custom level").insertAdjacentHTML("afterend","<p id='error message'>Non-numeric values are not allowed..</p>");
           } else if (document.getElementById("error message").innerHTML != "Non-numeric values are not allowed") {
@@ -262,9 +267,9 @@
         } else if (level === 2) {
           createLevel(2,2,5);
         } else if (level === 3) {
-          createLevel(2,3,4);
+          createLevel(3,3,4);
         } else if (level === 4) {
-          createLevel(2,4,5);
+          createLevel(4,4,5);
         } else {
           level = document.getElementById("level");
           while (level.firstChild) {
