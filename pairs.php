@@ -419,7 +419,7 @@
 
             <div id='level' class='grid'></div>
           </div>
-          <button id='start button' onclick="playLevel(1);">Click here to play</button>
+          <button id='start button' onclick="playLevel(1);">Start the game</button>
 
           <audio id="Level complete" controls style="display:none">
             <source src="sound effects/Level complete.mp3" type="audio/mp3">
