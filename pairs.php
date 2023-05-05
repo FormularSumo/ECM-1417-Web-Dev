@@ -178,18 +178,42 @@
       }
 
       function createCustomLevel(form) {
-        if ((form.rows.value*form.columns.value)%form.pairSize.value == 0) {
+        if (form.rows.value === "" || form.columns.value === "" || form.pairSize.value === "") {
+          if (document.getElementById("error message") === null) {
+            document.getElementById("custom level").insertAdjacentHTML("afterend","<p id='error message'>None of the values can be empty..</p>");
+          } else if (document.getElementById("error message").innerHTML != "None of the values can be empty..") {
+            document.getElementById("error message").innerHTML = "None of the values can be empty";
+          }
+        } else if (form.rows.value < 1 || form.columns.value < 1 || form.pairSize.value < 1) {
+          if (document.getElementById("error message") === null) {
+            document.getElementById("custom level").insertAdjacentHTML("afterend","<p id='error message'>None of the values can be less than 1..</p>");
+          } else if (document.getElementById("error message").innerHTML != "None of the values can be less than 1..") {
+            document.getElementById("error message").innerHTML = "None of the values can be less than 1..";
+          }
+        } else if (form.rows.value * form.columns.value < 2) {
+          if (document.getElementById("error message") === null) {
+            document.getElementById("custom level").insertAdjacentHTML("afterend","<p id='error message'>Have to have at least 2 cards</p>");
+          } else if (document.getElementById("error message").innerHTML != "error message'>Have to have at least 2 cards") {
+            document.getElementById("error message").innerHTML = "Have to have at least 2 cards";
+          }
+        } else if (form.pairSize.value < 2) {
+          if (document.getElementById("error message") === null) {
+            document.getElementById("custom level").insertAdjacentHTML("afterend","<p id='error message'>Pair size can't be less than 2</p>");
+          } else if (document.getElementById("error message").innerHTML != "Pair size can't be less than 2") {
+            document.getElementById("error message").innerHTML = "Pair size can't be less than 2";
+          }
+        } else if ((form.rows.value*form.columns.value)%form.pairSize.value != 0) {
+          if (document.getElementById("error message") === null) {
+            document.getElementById("custom level").insertAdjacentHTML("afterend","<p id='error message'>Total cards (rows * columns) must be divisible by pair size</p>");
+          } else if (document.getElementById("error message").innerHTML != "Total cards (rows * columns) must be divisible by pair size") {
+            document.getElementById("error message").innerHTML = "Total cards (rows * columns) must be divisible by pair size";
+          }
+        } else {
           document.getElementById("total point counter").style.display="block";
           document.getElementById("round point counter").style.display="block";
           document.getElementById("cards in need of matching").style.display="block";
 
-          createLevel(form.pairSize.value,form.rows.value,form.columns.value)
-        } else {
-          console.log('m')
-          if (document.getElementById("indivisible pair size") === null) {
-            console.log('f')
-            document.getElementById("customLevel").insertAdjacentHTML("afterend","<p id='indivisible pair size'>Total cards (rows * columns) must be divisible by pair size</p>")
-          }
+          createLevel(form.pairSize.value,form.rows.value,form.columns.value);
         }
       }
 
@@ -202,7 +226,7 @@
 
         level.insertAdjacentHTML("beforeend",`
         
-        <form id='customLevel' action="javascript:createCustomLevel(this);" method="post">
+        <form id='custom level' action="javascript:createCustomLevel(this);" method="post">
           <label for="pairSize">Pair size: </label>
           <input type="text" id="pairSize" name="pairSize"><br>
 
