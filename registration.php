@@ -26,8 +26,12 @@
           <label for="username">Username:</label>
           <input type="text" id="username" name="username">
           <?php
-            if (isset($_COOKIE["login_failed"]) and $_COOKIE["login_failed"] == true) {
-              echo "<br>Userame can't contain the<br>following special characters:<br>: ! @ # % ^ & * ( ) + = { } [ ]<br>— ; : \" ' < > ? /<br>";
+            if (isset($_COOKIE["login_failed"]) and ($_COOKIE["login_failed"] == 'special characters' or $_COOKIE["login_failed"] == 'empty')) {
+              if ($_COOKIE["login_failed"] == 'special characters') {
+                echo "<br>Userame can't contain the<br>following special characters:<br>: ! @ # % ^ & * ( ) + = { } [ ]<br>— ; : \" ' < > ? /<br>";
+              } else {
+                echo "<br>Userame can't empty";
+              }
               setcookie("login_failed",false);
             }
           ?>

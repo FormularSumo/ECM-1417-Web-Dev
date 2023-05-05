@@ -1,8 +1,13 @@
 <?php
   $x = $_POST;
+  if ($x["username"] == "") {
+    setcookie("login_failed",'empty');
+    header("Location: registration.php");
+    exit();
+  }
   for ($i=0; $i<strlen($x["username"]); $i++) {
     if ($x["username"][$i] == "\"" or $x["username"][$i] == "@" or $x["username"][$i] == "#" or $x["username"][$i] == "%" or $x["username"][$i] == "&" or $x["username"][$i] == "^" or $x["username"][$i] == "*" or $x["username"][$i] == "(" or $x["username"][$i] == ")" or $x["username"][$i] == "+" or $x["username"][$i] == "=" or $x["username"][$i] == "{" or $x["username"][$i] == "}" or $x["username"][$i] == "[" or $x["username"][$i] == "]" or $x["username"][$i] == "-" or $x["username"][$i] == ";" or $x["username"][$i] == ":" or $x["username"][$i] == "'" or $x["username"][$i] == "<" or $x["username"][$i] == ">" or $x["username"][$i] == "?" or $x["username"][$i] == "/") {
-      setcookie("login_failed",true);
+      setcookie("login_failed",'special characters');
       header("Location: registration.php");
       exit();
     }

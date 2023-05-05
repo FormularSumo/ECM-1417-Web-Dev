@@ -12,7 +12,7 @@ index.php:
 register.php:
   Form that allows user to input username and create avatar by choosing skin eyes and mouth of it
   Live avatar preview that updates as user selects skin/eyes/mouth
-  Registration fails and message explaining why if special charater used in username
+  Registration fails with appropriate error message username is blank or contains special charaters
   If user decides to re-register later (eg they want to change their username or avatar), existing avatar is hidden from navbar, and existing previous highscores are cleared
 
 pairs.php:
