@@ -171,6 +171,7 @@
         }
 
         redrawPoints()
+        start=undefined;
         currentPoints = 1000;
         gameActive=true;
         window.requestAnimationFrame(update);
@@ -196,9 +197,8 @@
         document.getElementById("start button").remove();
         document.getElementById("total point counter").style.display="none";
         
-        totalPoints=0;
-        currentPoints=1000;
-        currentLevel=-1;
+        totalPoints = 0;
+        currentLevel = -1;
 
         level.insertAdjacentHTML("beforeend",`
         
@@ -263,7 +263,6 @@
           document.getElementById("round point counter").style.display="block";
         }
         document.getElementById("total point counter").innerHTML = "Total points: 0";
-        start=undefined;
 
         eval(play);
       }
