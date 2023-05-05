@@ -229,12 +229,12 @@
           scores = [];
           redrawPoints()
           createLevel(2,2,3);
-        // } else if (level === 2) {
-        //   createLevel(2,2,5);
-        // } else if (level === 3) {
-        //   createLevel(3,3,4);
-        // } else if (level === 4) {
-        //   createLevel(4,4,5);
+        } else if (level === 2) {
+          createLevel(2,2,5);
+        } else if (level === 3) {
+          createLevel(2,3,4);
+        } else if (level === 4) {
+          createLevel(2,4,5);
         } else {
           level = document.getElementById("level");
           while (level.firstChild) {
@@ -272,6 +272,14 @@
         document.getElementById("submit score").remove()
 
         level.insertAdjacentHTML("beforeend","<p id='submit score'>Scores submitted<br>Open leaderboard to see</p>");
+
+        fetch('submit score.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+          },
+          body: "totalPoints=" + Math.round(totalPoints) + "&level1Points=" + Math.round(scores[0]) + "&level2Points=" + Math.round(scores[1]) + "&level3Points=" + Math.round(scores[2]) + "&level4Points=" + Math.round(scores[3]),
+        })
       }
 
       function flipCard(card,opacity) {
