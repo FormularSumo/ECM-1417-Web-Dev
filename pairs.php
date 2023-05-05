@@ -381,20 +381,24 @@
 
     <div id='main'>
       <div id='content' style="background-color:grey; box-shadow:0px 0px 5px 5px #515151;">
-        <div id='pairs' style="display:none; width=80%;">
-          <p id='total point counter'>Total points: 0</p>
-          <p id='round point counter'>Points this round: 1000</p>
-          <p id='level highscore'>Previous highscore for this level: none</p>
-          <p id='cards in need of matching'>This round 2 cards at a time need matching together</p>
+        <?php if(isset($_COOKIE["username"])) : ?>
+          <div id='pairs' style="display:none; width=80%;">
+            <p id='total point counter'>Total points: 0</p>
+            <p id='round point counter'>Points this round: 1000</p>
+            <p id='level highscore'>Previous highscore for this level: none</p>
+            <p id='cards in need of matching'>This round 2 cards at a time need matching together</p>
 
-          <div id='level' class='grid'></div>
-        </div>
-        <button id='start button' onclick="playLevel(1);">Click here to play</button>
+            <div id='level' class='grid'></div>
+          </div>
+          <button id='start button' onclick="playLevel(1);">Click here to play</button>
+
+          <audio id="Level complete" controls style="display:none">
+            <source src="sound effects/Level complete.mp3" type="audio/mp3">
+          </audio>
+        <?php else: ?>
+          <p>Please register before playing</p>
+        <?php endif;?>
       </div>
     </div>
-
-    <audio id="Level complete" controls style="display:none">
-      <source src="sound effects/Level complete.mp3" type="audio/mp3">
-    </audio>
   </body>
 </html>
