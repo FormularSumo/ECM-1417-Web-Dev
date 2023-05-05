@@ -26,4 +26,4 @@ pairs.php:
   Once all pairs have been matched, round ends, round completion sound is played and round points freezes. Background turns gold if previous highscore for that level has been beaten and it's not the first time the level has been played. After 1.8 seconds the next round starts - cards are replaced and round points added to total points.
   Once all the levels are complete, cards and round points disappear and play again, submit score, and create level buttons appears.
 
-  Create level provides a form allowing the user to create a custom level with their choice of matches in a pair, rows, and columns. If the total number of cards would be individible by that number of matches an error message is displayed explaining this to the user.
+  Create level provides a form allowing the user to create a custom level with their choice of matches in a pair, rows, and columns. Appropriate error messages are displayed if non-numeric values are given, there's less than 2 cards or 2 matches, or if the total number of cards would be individible by that number of matches.

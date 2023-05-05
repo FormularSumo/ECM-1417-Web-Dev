@@ -184,6 +184,12 @@
           } else if (document.getElementById("error message").innerHTML != "None of the values can be empty..") {
             document.getElementById("error message").innerHTML = "None of the values can be empty";
           }
+        } else if (Number.isInteger(form.rows.value) === false || Number.isInteger(form.columns.value) === false || Number.isInteger(form.pairSize.value) === false) {
+          if (document.getElementById("error message") === null) {
+            document.getElementById("custom level").insertAdjacentHTML("afterend","<p id='error message'>Non-numeric values are not allowed..</p>");
+          } else if (document.getElementById("error message").innerHTML != "Non-numeric values are not allowed") {
+            document.getElementById("error message").innerHTML = "Non-numeric values are not allowed";
+          }
         } else if (form.rows.value < 1 || form.columns.value < 1 || form.pairSize.value < 1) {
           if (document.getElementById("error message") === null) {
             document.getElementById("custom level").insertAdjacentHTML("afterend","<p id='error message'>None of the values can be less than 1..</p>");
