@@ -263,7 +263,7 @@ function playLevel(level) {
   } else if (level === 4) {
     createLevel(4,4,5);
   } else {
-    level = document.getElementById("level");
+    let level = document.getElementById("level");
     while (level.firstChild) {
       level.firstChild.remove();
     }
